@@ -1,0 +1,6 @@
+book_filename: "D3plusR"
+language:
+  ui:
+    chapter_name: " "
+output_dir: "docs"
+
