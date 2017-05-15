@@ -1,0 +1,49 @@
+# Visualizações de barras
+
+## Dados
+
+Aqui serão usados os dados de exportações e importações brasileiras anuais de 1989 a 2016.
+
+## Criando a visualização
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(D3plusR)
+
+dados <- read.csv('dados/exp_imp_brasil.csv')
+
+d3plus(data = dados %>% filter(CO_ANO >= 2005),
+       type = "bar",
+       id = "TIPO",
+       width = "100%",
+       height = 500, 
+       locale = "pt_BR") %>% 
+  d3plusX(value = "CO_ANO", label = "Ano") %>% 
+  d3plusY(value = "VL_FOB", label = "Valor FOB")
+```
+
+Alguns pontos que devem ser ressaltados do gráfico acima:
+
+1. o `D3plus` automaicamente aplica uma formação para os números, incluindo símbolos para Bilhões, milhões e milhares;
+2. perceba que a ordem das barras não é respeitada, sempre o menos valor vem primeiro.
+
+O primeiro problema pode ser resolvido com os argumentos `number_text`, `currency`, `currency_var`, `percent_var` e `noformat_number_var`. Basicamente, iremos dizer quais são os textos que devem aparecer para bilhões, milhões e milhares. `currency` define o símbolo da moeda que desejamos adiconar antes do número das variáveis que definirmos como variáveis de moeda, `currency_var` indica o nome das variáveis de moeda, `percent_var` indica o nome das variáveis que são percentuais e `noformat_number_var` indica quais variáveis devem apresentar o número na sua forma original.
+
+```{r}
+d3plus(data = dados %>% filter(CO_ANO >= 2005),
+       type = "bar",
+       id = "TIPO",
+       width = "100%",
+       height = 500, 
+       locale = "pt_BR",
+       currency = "US$",
+       number_text = c("Mil", "Milhão", "Milhões", "Bilhão", "Bilhões"),
+       currency_var = "VL_FOB",
+       noformat_number_var = "CO_ANO") %>%
+  d3plusX(value = "CO_ANO", grid = FALSE) %>% 
+  d3plusY(value = "VL_FOB", grid = TRUE, label = list(value = "Valor FOB",
+                                                       font = list(size = 40))) %>% 
+  d3plusAxes(ticks = FALSE, background = list(color = "#FFFFFF", stroke = list(width = 0)))
+```
+
+

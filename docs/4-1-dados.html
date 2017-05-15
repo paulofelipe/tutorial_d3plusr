@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Introdução ao pacote D3plusR" />
+<meta property="og:type" content="book" />
+
+
+<meta property="og:description" content="Tutorial do pacote D3plusR." />
+<meta name="github-repo" content="rstudio/bookdown-demo" />
+
+<meta name="author" content="Paulo Felipe Alencar de Oliveira" />
+
+<meta name="date" content="2017-12-05" />
+
+
+<meta name="description" content="Tutorial do pacote D3plusR.">
+
+<title>Introdução ao pacote D3plusR</title>
+
+<script src="libs/jquery-3.2.1/jquery-3.2.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="libs/d3plus-1.9.6/d3.min.js"></script>
+<script src="libs/d3plus-1.9.6/d3plus.min.js"></script>
+<script src="libs/d3plus-1.9.6/topojson.js"></script>
+<script src="libs/d3plus-binding-0.0.1/d3plus.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist/bootstrap-toc.min.css">
+<!-- add after bootstrap.min.js -->
+<script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist/bootstrap-toc.min.js"></script>
+
+<style>
+  .d3plus{
+    font-size: 10px !important;
+  }
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#visao-geral"><span class="toc-section-number">1</span> Visão Geral</a><ul>
+<li><a href="1-1-sobre-o-d3plus-e-o-d3plusr.html#sobre-o-d3plus-e-o-d3plusr"><span class="toc-section-number">1.1</span> Sobre o D3plus e o D3plusR</a></li>
+<li><a href="1-2-instalando-o-pacote.html#instalando-o-pacote"><span class="toc-section-number">1.2</span> Instalando o pacote</a></li>
+<li><a href="1-3-pacotes-adicionais-necessario-para-o-tutorial.html#pacotes-adicionais-necessario-para-o-tutorial"><span class="toc-section-number">1.3</span> Pacotes adicionais necessário para o tutorial</a></li>
+<li><a href="1-4-opcoes-das-funcoes.html#opcoes-das-funcoes"><span class="toc-section-number">1.4</span> Opções das funções</a></li>
+<li><a href="1-5-dados-utilizados-nos-exeplos.html#dados-utilizados-nos-exeplos"><span class="toc-section-number">1.5</span> Dados utilizados nos exeplos</a></li>
+</ul></li>
+<li class="has-sub"><a href="2-json-javascript-object-notation.html#json-javascript-object-notation"><span class="toc-section-number">2</span> JSON (JavaScript Object Notation)</a><ul>
+<li><a href="2-1-introducao.html#introducao"><span class="toc-section-number">2.1</span> Introdução</a></li>
+<li class="has-sub"><a href="2-2-tipos-de-dados.html#tipos-de-dados"><span class="toc-section-number">2.2</span> Tipos de dados</a><ul>
+<li><a href="2-2-tipos-de-dados.html#array"><span class="toc-section-number">2.2.1</span> Array</a></li>
+<li><a href="2-2-tipos-de-dados.html#object"><span class="toc-section-number">2.2.2</span> Object</a></li>
+<li><a href="2-2-tipos-de-dados.html#objeto-recebendo-objeto"><span class="toc-section-number">2.2.3</span> Objeto recebendo objeto</a></li>
+</ul></li>
+<li><a href="2-3-por-que-complicar.html#por-que-complicar"><span class="toc-section-number">2.3</span> Por que complicar?</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-primeiro-exemplo.html#primeiro-exemplo"><span class="toc-section-number">3</span> Primeiro Exemplo</a><ul>
+<li><a href="3-1-criando-uma-simples-visualizacao-de-barras.html#criando-uma-simples-visualizacao-de-barras"><span class="toc-section-number">3.1</span> Criando uma simples visualização de barras</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-visualizacoes-de-barras.html#visualizacoes-de-barras"><span class="toc-section-number">4</span> Visualizações de barras</a><ul>
+<li><a href="4-1-dados.html#dados"><span class="toc-section-number">4.1</span> Dados</a></li>
+<li><a href="4-2-criando-a-visualizacao.html#criando-a-visualizacao"><span class="toc-section-number">4.2</span> Criando a visualização</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="dados" class="section level2">
+<h2><span class="header-section-number">4.1</span> Dados</h2>
+<p>Aqui serão usados os dados de exportações e importações brasileiras anuais de 1989 a 2016.</p>
+</div>
+<p style="text-align: center;">
+<a href="4-visualizacoes-de-barras.html"><button class="btn btn-default">Previous</button></a>
+<a href="4-2-criando-a-visualizacao.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

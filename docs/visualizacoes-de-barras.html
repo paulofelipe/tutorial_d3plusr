@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Introdução ao pacote D3plusR" />
+<meta property="og:type" content="book" />
+
+
+<meta property="og:description" content="Tutorial do pacote D3plusR." />
+<meta name="github-repo" content="rstudio/bookdown-demo" />
+
+<meta name="author" content="Paulo Felipe Alencar de Oliveira" />
+
+<meta name="date" content="2017-12-05" />
+
+
+<meta name="description" content="Tutorial do pacote D3plusR.">
+
+<title>Introdução ao pacote D3plusR</title>
+
+<script src="libs/jquery-3.2.1/jquery-3.2.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="libs/d3plus-1.9.6/d3.min.js"></script>
+<script src="libs/d3plus-1.9.6/d3plus.min.js"></script>
+<script src="libs/d3plus-1.9.6/topojson.js"></script>
+<script src="libs/d3plus-binding-0.0.1/d3plus.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link rel="stylesheet" href="my_style.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#visao-geral"><span class="toc-section-number">1</span> Visão Geral</a><ul>
+<li><a href="index.html#sobre-o-d3plus-e-o-d3plusr"><span class="toc-section-number">1.1</span> Sobre o D3plus e o D3plusR</a></li>
+<li><a href="index.html#instalando-o-pacote"><span class="toc-section-number">1.2</span> Instalando o pacote</a></li>
+<li><a href="index.html#pacotes-adicionais-necessario-para-o-tutorial"><span class="toc-section-number">1.3</span> Pacotes adicionais necessário para o tutorial</a></li>
+<li><a href="index.html#opcoes-das-funcoes"><span class="toc-section-number">1.4</span> Opções das funções</a></li>
+<li><a href="index.html#dados-utilizados-nos-exeplos"><span class="toc-section-number">1.5</span> Dados utilizados nos exeplos</a></li>
+</ul></li>
+<li class="has-sub"><a href="json-javascript-object-notation.html#json-javascript-object-notation"><span class="toc-section-number">2</span> JSON (JavaScript Object Notation)</a><ul>
+<li><a href="json-javascript-object-notation.html#introducao"><span class="toc-section-number">2.1</span> Introdução</a></li>
+<li class="has-sub"><a href="json-javascript-object-notation.html#tipos-de-dados"><span class="toc-section-number">2.2</span> Tipos de dados</a><ul>
+<li><a href="json-javascript-object-notation.html#array"><span class="toc-section-number">2.2.1</span> Array</a></li>
+<li><a href="json-javascript-object-notation.html#object"><span class="toc-section-number">2.2.2</span> Object</a></li>
+<li><a href="json-javascript-object-notation.html#objeto-recebendo-objeto"><span class="toc-section-number">2.2.3</span> Objeto recebendo objeto</a></li>
+</ul></li>
+<li><a href="json-javascript-object-notation.html#por-que-complicar"><span class="toc-section-number">2.3</span> Por que complicar?</a></li>
+</ul></li>
+<li class="has-sub"><a href="primeiro-exemplo.html#primeiro-exemplo"><span class="toc-section-number">3</span> Primeiro Exemplo</a><ul>
+<li><a href="primeiro-exemplo.html#criando-uma-simples-visualizacao-de-barras"><span class="toc-section-number">3.1</span> Criando uma simples visualização de barras</a></li>
+</ul></li>
+<li class="has-sub"><a href="visualizacoes-de-barras.html#visualizacoes-de-barras"><span class="toc-section-number">4</span> Visualizações de barras</a><ul>
+<li><a href="visualizacoes-de-barras.html#dados"><span class="toc-section-number">4.1</span> Dados</a></li>
+<li><a href="visualizacoes-de-barras.html#criando-a-visualizacao"><span class="toc-section-number">4.2</span> Criando a visualização</a></li>
+</ul></li>
+<li><a href="visualizacoes-de-treemap.html#visualizacoes-de-treemap"><span class="toc-section-number">5</span> Visualizações de treemap</a></li>
+<li><a href="visualizacoes-de-geomap.html#visualizacoes-de-geomap"><span class="toc-section-number">6</span> Visualizações de geomap</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="visualizacoes-de-barras" class="section level1">
+<h1><span class="header-section-number"> 4</span> Visualizações de barras</h1>
+<div id="dados" class="section level2">
+<h2><span class="header-section-number">4.1</span> Dados</h2>
+<p>Aqui serão usados os dados de exportações e importações brasileiras anuais de 1989 a 2016.</p>
+</div>
+<div id="criando-a-visualizacao" class="section level2">
+<h2><span class="header-section-number">4.2</span> Criando a visualização</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(D3plusR)
+
+dados &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;dados/exp_imp_brasil.csv&#39;</span>)
+
+<span class="kw">d3plus</span>(<span class="dt">data =</span> dados %&gt;%<span class="st"> </span><span class="kw">filter</span>(CO_ANO &gt;=<span class="st"> </span><span class="dv">2005</span>),
+       <span class="dt">type =</span> <span class="st">&quot;bar&quot;</span>,
+       <span class="dt">id =</span> <span class="st">&quot;TIPO&quot;</span>,
+       <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>,
+       <span class="dt">height =</span> <span class="dv">500</span>, 
+       <span class="dt">locale =</span> <span class="st">&quot;pt_BR&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusX</span>(<span class="dt">value =</span> <span class="st">&quot;CO_ANO&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Ano&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusY</span>(<span class="dt">value =</span> <span class="st">&quot;VL_FOB&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;Valor FOB&quot;</span>)</code></pre></div>
+<div id="htmlwidget-3d262302df3099796c42" style="width:100%;height:500px;" class="d3plus html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3d262302df3099796c42">{"x":{"data":{"CO_ANO":[2005,2005,2006,2006,2007,2007,2008,2008,2009,2009,2010,2010,2011,2011,2012,2012,2013,2013,2014,2014,2015,2015,2016,2016],"TIPO":["EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP"],"VL_FOB":[118529184899,73600375672,137807469531,91350840805,160649072830,120617446250,197942442909,172984767614,152994742805,127722342988,201915285335,181768427438,256039574768,226246755801,242578013546,223183476643,242033574720,239747515987,225100884831,229154462583,191134324584,171449050909,185235400805,137552002856]},"settings":{"type":"bar","id":["TIPO"],"title":["function (main = NULL, sub = NULL, xlab = NULL, ylab = NULL, ","    line = NA, outer = FALSE, ...) ","{","    main <- as.graphicsAnnot(main)","    sub <- as.graphicsAnnot(sub)","    xlab <- as.graphicsAnnot(xlab)","    ylab <- as.graphicsAnnot(ylab)","    .External.graphics(C_title, main, sub, xlab, ylab, line, ","        outer, ...)","    invisible()","}"],"currency":"US$","number_text":["K","M","M","B","B"],"currency_var":null,"percent_var":null,"noformat_number_var":null,"locale":"pt_BR","dictionary":{}},"d3plusAxisX":{"value":"CO_ANO","label":"Ano"},"d3plusAxisY":{"value":"VL_FOB","label":"Valor FOB"}},"evals":[],"jsHooks":[]}</script>
+<p>Alguns pontos que devem ser ressaltados do gráfico acima:</p>
+<ol style="list-style-type: decimal">
+<li>o <code>D3plus</code> automaicamente aplica uma formação para os números, incluindo símbolos para Bilhões, milhões e milhares;</li>
+<li>perceba que a ordem das barras não é respeitada, sempre o menos valor vem primeiro.</li>
+</ol>
+<p>O primeiro problema pode ser resolvido com os argumentos <code>number_text</code>, <code>currency</code>, <code>currency_var</code>, <code>percent_var</code> e <code>noformat_number_var</code>. Basicamente, iremos dizer quais são os textos que devem aparecer para bilhões, milhões e milhares. <code>currency</code> define o símbolo da moeda que desejamos adiconar antes do número das variáveis que definirmos como variáveis de moeda, <code>currency_var</code> indica o nome das variáveis de moeda, <code>percent_var</code> indica o nome das variáveis que são percentuais e <code>noformat_number_var</code> indica quais variáveis devem apresentar o número na sua forma original.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">d3plus</span>(<span class="dt">data =</span> dados %&gt;%<span class="st"> </span><span class="kw">filter</span>(CO_ANO &gt;=<span class="st"> </span><span class="dv">2005</span>),
+       <span class="dt">type =</span> <span class="st">&quot;bar&quot;</span>,
+       <span class="dt">id =</span> <span class="st">&quot;TIPO&quot;</span>,
+       <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>,
+       <span class="dt">height =</span> <span class="dv">500</span>, 
+       <span class="dt">locale =</span> <span class="st">&quot;pt_BR&quot;</span>,
+       <span class="dt">currency =</span> <span class="st">&quot;US$&quot;</span>,
+       <span class="dt">number_text =</span> <span class="kw">c</span>(<span class="st">&quot;Mil&quot;</span>, <span class="st">&quot;Milhão&quot;</span>, <span class="st">&quot;Milhões&quot;</span>, <span class="st">&quot;Bilhão&quot;</span>, <span class="st">&quot;Bilhões&quot;</span>),
+       <span class="dt">currency_var =</span> <span class="st">&quot;VL_FOB&quot;</span>,
+       <span class="dt">noformat_number_var =</span> <span class="st">&quot;CO_ANO&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">d3plusX</span>(<span class="dt">value =</span> <span class="st">&quot;CO_ANO&quot;</span>, <span class="dt">grid =</span> <span class="ot">FALSE</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusY</span>(<span class="dt">value =</span> <span class="st">&quot;VL_FOB&quot;</span>, <span class="dt">grid =</span> <span class="ot">TRUE</span>, <span class="dt">label =</span> <span class="kw">list</span>(<span class="dt">value =</span> <span class="st">&quot;Valor FOB&quot;</span>,
+                                                       <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">40</span>))) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusAxes</span>(<span class="dt">ticks =</span> <span class="ot">FALSE</span>, <span class="dt">background =</span> <span class="kw">list</span>(<span class="dt">color =</span> <span class="st">&quot;#FFFFFF&quot;</span>, <span class="dt">stroke =</span> <span class="kw">list</span>(<span class="dt">width =</span> <span class="dv">0</span>)))</code></pre></div>
+<div id="htmlwidget-010de8898c86c6c8c0fb" style="width:100%;height:500px;" class="d3plus html-widget"></div>
+<script type="application/json" data-for="htmlwidget-010de8898c86c6c8c0fb">{"x":{"data":{"CO_ANO":[2005,2005,2006,2006,2007,2007,2008,2008,2009,2009,2010,2010,2011,2011,2012,2012,2013,2013,2014,2014,2015,2015,2016,2016],"TIPO":["EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP","EXP","IMP"],"VL_FOB":[118529184899,73600375672,137807469531,91350840805,160649072830,120617446250,197942442909,172984767614,152994742805,127722342988,201915285335,181768427438,256039574768,226246755801,242578013546,223183476643,242033574720,239747515987,225100884831,229154462583,191134324584,171449050909,185235400805,137552002856]},"settings":{"type":"bar","id":["TIPO"],"title":["function (main = NULL, sub = NULL, xlab = NULL, ylab = NULL, ","    line = NA, outer = FALSE, ...) ","{","    main <- as.graphicsAnnot(main)","    sub <- as.graphicsAnnot(sub)","    xlab <- as.graphicsAnnot(xlab)","    ylab <- as.graphicsAnnot(ylab)","    .External.graphics(C_title, main, sub, xlab, ylab, line, ","        outer, ...)","    invisible()","}"],"currency":"US$","number_text":["Mil","Milhão","Milhões","Bilhão","Bilhões"],"currency_var":"VL_FOB","percent_var":null,"noformat_number_var":"CO_ANO","locale":"pt_BR","dictionary":{}},"d3plusAxisX":{"value":"CO_ANO","grid":false},"d3plusAxisY":{"value":"VL_FOB","grid":true,"label":{"value":"Valor FOB","font":{"size":40}}},"d3plusAxes":{"ticks":false,"mirror":false,"background":{"color":"#FFFFFF","stroke":{"width":0}}}},"evals":[],"jsHooks":[]}</script>
+
+</div>
+</div>
+<p style="text-align: center;">
+<a href="primeiro-exemplo.html"><button class="btn btn-default">Previous</button></a>
+<a href="visualizacoes-de-treemap.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

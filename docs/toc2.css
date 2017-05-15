@@ -21,8 +21,7 @@
   clear: both;
 }
 #TOC a {
-  background: #141414;
-  background: linear-gradient(to bottom, #333333 0%, #141414 100%);
+  background: #ffffff;
   color: #000000;
   display: block;
   padding: 19px 20px;

@@ -1,3 +1,6 @@
+bookdown::html_book:
+  split_by: chapter
+  css: my_style.css
 bookdown::gitbook:
   css: style.css
   config:

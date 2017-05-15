@@ -21,8 +21,7 @@
   clear: both;
 }
 #TOC a {
-  background: #141414;
-  background: linear-gradient(to bottom, #333333 0%, #141414 100%);
+  background: #ffffff;
   color: #000000;
   display: block;
   padding: 19px 20px;
@@ -38,7 +37,7 @@
   margin: 0;
 }
 #TOC > ul > li > a {
-  color: #ffffff;
+  color: #000000;
 }
 #TOC > ul > li:hover:after {
   content: '';
@@ -65,10 +64,8 @@
 }
 #TOC > ul > li.active > a,
 #TOC > ul > li:hover > a {
-  color: #ffffff;
-  box-shadow: inset 0 0 3px #000000;
-  background: #070707;
-  background: linear-gradient(to bottom, #262626 0%, #070707 100%);
+  color: #000000;
+  background: #ffffff;
 }
 #TOC .has-sub {
   z-index: 1;
@@ -78,19 +75,19 @@
 }
 #TOC .has-sub ul {
   display: none;
+  border: 1px solid;
   position: absolute;
   width: 200px;
   top: 100%;
   left: 0;
 }
 #TOC .has-sub ul li a {
-  background: #0fa1e0;
-  border-bottom: 1px dotted #31b7f1;
+  background: #ffffff;
   filter: none;
   display: block;
   line-height: 120%;
   padding: 10px;
-  color: #ffffff;
+  color: #000000;
 }
 #TOC .has-sub ul li:hover a {
   background: #0c7fb0;
@@ -103,13 +100,13 @@
 }
 #TOC .has-sub .has-sub ul {
   display: none;
+  border: 1px solid;
   position: absolute;
   left: 100%;
   top: 0;
 }
 #TOC .has-sub .has-sub ul li a {
-  background: #0c7fb0;
-  border-bottom: 1px dotted #31b7f1;
+  background: #ffffff;
 }
 #TOC .has-sub .has-sub ul li a:hover {
   background: #0a6d98;

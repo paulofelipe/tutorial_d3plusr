@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Introdução ao pacote D3plusR" />
+<meta property="og:type" content="book" />
+
+
+<meta property="og:description" content="Tutorial do pacote D3plusR." />
+<meta name="github-repo" content="rstudio/bookdown-demo" />
+
+<meta name="author" content="Paulo Felipe Alencar de Oliveira" />
+
+<meta name="date" content="2017-12-05" />
+
+
+<meta name="description" content="Tutorial do pacote D3plusR.">
+
+<title>Introdução ao pacote D3plusR</title>
+
+<script src="libs/jquery-3.2.1/jquery-3.2.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="libs/d3plus-1.9.6/d3.min.js"></script>
+<script src="libs/d3plus-1.9.6/d3plus.min.js"></script>
+<script src="libs/d3plus-1.9.6/topojson.js"></script>
+<script src="libs/d3plus-binding-0.0.1/d3plus.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link rel="stylesheet" href="my_style.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#visao-geral"><span class="toc-section-number">1</span> Visão Geral</a><ul>
+<li><a href="index.html#sobre-o-d3plus-e-o-d3plusr"><span class="toc-section-number">1.1</span> Sobre o D3plus e o D3plusR</a></li>
+<li><a href="index.html#instalando-o-pacote"><span class="toc-section-number">1.2</span> Instalando o pacote</a></li>
+<li><a href="index.html#pacotes-adicionais-necessario-para-o-tutorial"><span class="toc-section-number">1.3</span> Pacotes adicionais necessário para o tutorial</a></li>
+<li><a href="index.html#opcoes-das-funcoes"><span class="toc-section-number">1.4</span> Opções das funções</a></li>
+<li><a href="index.html#dados-utilizados-nos-exeplos"><span class="toc-section-number">1.5</span> Dados utilizados nos exeplos</a></li>
+</ul></li>
+<li class="has-sub"><a href="json-javascript-object-notation.html#json-javascript-object-notation"><span class="toc-section-number">2</span> JSON (JavaScript Object Notation)</a><ul>
+<li><a href="json-javascript-object-notation.html#introducao"><span class="toc-section-number">2.1</span> Introdução</a></li>
+<li class="has-sub"><a href="json-javascript-object-notation.html#tipos-de-dados"><span class="toc-section-number">2.2</span> Tipos de dados</a><ul>
+<li><a href="json-javascript-object-notation.html#array"><span class="toc-section-number">2.2.1</span> Array</a></li>
+<li><a href="json-javascript-object-notation.html#object"><span class="toc-section-number">2.2.2</span> Object</a></li>
+<li><a href="json-javascript-object-notation.html#objeto-recebendo-objeto"><span class="toc-section-number">2.2.3</span> Objeto recebendo objeto</a></li>
+</ul></li>
+<li><a href="json-javascript-object-notation.html#por-que-complicar"><span class="toc-section-number">2.3</span> Por que complicar?</a></li>
+</ul></li>
+<li class="has-sub"><a href="primeiro-exemplo.html#primeiro-exemplo"><span class="toc-section-number">3</span> Primeiro Exemplo</a><ul>
+<li><a href="primeiro-exemplo.html#criando-uma-simples-visualizacao-de-barras"><span class="toc-section-number">3.1</span> Criando uma simples visualização de barras</a></li>
+</ul></li>
+<li class="has-sub"><a href="visualizacoes-de-barras.html#visualizacoes-de-barras"><span class="toc-section-number">4</span> Visualizações de barras</a><ul>
+<li><a href="visualizacoes-de-barras.html#dados"><span class="toc-section-number">4.1</span> Dados</a></li>
+<li><a href="visualizacoes-de-barras.html#criando-a-visualizacao"><span class="toc-section-number">4.2</span> Criando a visualização</a></li>
+</ul></li>
+<li><a href="visualizacoes-de-treemap.html#visualizacoes-de-treemap"><span class="toc-section-number">5</span> Visualizações de treemap</a></li>
+<li><a href="visualizacoes-de-geomap.html#visualizacoes-de-geomap"><span class="toc-section-number">6</span> Visualizações de geomap</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="primeiro-exemplo" class="section level1">
+<h1><span class="header-section-number"> 3</span> Primeiro Exemplo</h1>
+<div id="criando-uma-simples-visualizacao-de-barras" class="section level2">
+<h2><span class="header-section-number">3.1</span> Criando uma simples visualização de barras</h2>
+<p>Neste primeiro exemplo, iremos replicar o exemplo disponibilizado pelo desenvolvedores do pacote <a href="http://d3plus.org/examples/basic/5c57d9d71aa309d180c2/">neste link</a>.</p>
+<p>O código original é o seguinte:</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="op">&lt;!</span>doctype html<span class="op">&gt;</span>
+<span class="op">&lt;</span>meta charset<span class="op">=</span><span class="st">&quot;utf-8&quot;</span><span class="op">&gt;</span>
+
+<span class="op">&lt;</span>script src<span class="op">=</span><span class="st">&quot;//d3plus.org/js/d3.js&quot;</span><span class="op">&gt;&lt;</span><span class="ss">/script&gt;</span>
+<span class="ss">&lt;script src=&quot;//d3plus.org/js/d3plus.js&quot;&gt;&lt;/script</span><span class="op">&gt;</span>
+
+<span class="op">&lt;</span>div id<span class="op">=</span><span class="st">&quot;viz&quot;</span><span class="op">&gt;&lt;</span><span class="ss">/div&gt;</span>
+
+<span class="ss">&lt;script&gt;</span>
+<span class="ss">  var data = </span><span class="sc">[</span>
+<span class="ss">    {&quot;year&quot;: 1991, &quot;name&quot;:&quot;alpha&quot;, &quot;value&quot;: 15},</span>
+<span class="ss">    {&quot;year&quot;: 1991, &quot;name&quot;:&quot;beta&quot;, &quot;value&quot;: 10},</span>
+<span class="ss">    {&quot;year&quot;: 1991, &quot;name&quot;:&quot;gamma&quot;, &quot;value&quot;: 5},</span>
+<span class="ss">    {&quot;year&quot;: 1991, &quot;name&quot;:&quot;delta&quot;, &quot;value&quot;: 50},</span>
+<span class="ss">    {&quot;year&quot;: 1992, &quot;name&quot;:&quot;alpha&quot;, &quot;value&quot;: 20},</span>
+<span class="ss">    {&quot;year&quot;: 1992, &quot;name&quot;:&quot;beta&quot;, &quot;value&quot;: 10},</span>
+<span class="ss">    {&quot;year&quot;: 1992, &quot;name&quot;:&quot;gamma&quot;, &quot;value&quot;: 10},</span>
+<span class="ss">    {&quot;year&quot;: 1992, &quot;name&quot;:&quot;delta&quot;, &quot;value&quot;: 43},</span>
+<span class="ss">    {&quot;year&quot;: 1993, &quot;name&quot;:&quot;alpha&quot;, &quot;value&quot;: 30},</span>
+<span class="ss">    {&quot;year&quot;: 1993, &quot;name&quot;:&quot;beta&quot;, &quot;value&quot;: 40},</span>
+<span class="ss">    {&quot;year&quot;: 1993, &quot;name&quot;:&quot;gamma&quot;, &quot;value&quot;: 20},</span>
+<span class="ss">    {&quot;year&quot;: 1993, &quot;name&quot;:&quot;delta&quot;, &quot;value&quot;: 17},</span>
+<span class="ss">    {&quot;year&quot;: 1994, &quot;name&quot;:&quot;alpha&quot;, &quot;value&quot;: 60},</span>
+<span class="ss">    {&quot;year&quot;: 1994, &quot;name&quot;:&quot;beta&quot;, &quot;value&quot;: 60},</span>
+<span class="ss">    {&quot;year&quot;: 1994, &quot;name&quot;:&quot;gamma&quot;, &quot;value&quot;: 25},</span>
+<span class="ss">    {&quot;year&quot;: 1994, &quot;name&quot;:&quot;delta&quot;, &quot;value&quot;: 32}</span>
+<span class="ss">  ]</span>
+<span class="ss">  var visualization = d3plus.viz</span><span class="sc">()</span>
+<span class="ss">    .container</span><span class="sc">(</span><span class="ss">&quot;#viz&quot;</span><span class="sc">)</span>
+<span class="ss">    .data</span><span class="sc">(</span><span class="ss">data</span><span class="sc">)</span>
+<span class="ss">    .type</span><span class="sc">(</span><span class="ss">&quot;bar&quot;</span><span class="sc">)</span>
+<span class="ss">    .id</span><span class="sc">(</span><span class="ss">&quot;name&quot;</span><span class="sc">)</span>
+<span class="ss">    .x</span><span class="sc">(</span><span class="ss">&quot;year&quot;</span><span class="sc">)</span>
+<span class="ss">    .y</span><span class="sc">(</span><span class="ss">&quot;value&quot;</span><span class="sc">)</span>
+<span class="ss">    .draw</span><span class="sc">()</span>
+<span class="ss">&lt;/script</span><span class="op">&gt;</span></code></pre></div>
+<p>O nosso interesse é na parte que está dentro da tag <code>&lt;script&gt;</code>. Perceba que foi criar um objeto chamado data que é um array de objetos. Esses objetos têm as seguintes chaves (<code>keys</code>) <code>year</code>,<code>name</code> e <code>value</code> com seus respectivos valores (<code>values</code>). Assim, vamos criar a estrutura de dados no R que após ser convertida irar gerar um objeto igual ao criado acima:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">year =</span> <span class="kw">c</span>(<span class="dv">1991</span>, <span class="dv">1991</span>, <span class="dv">1991</span>, <span class="dv">1991</span>, <span class="dv">1992</span>, <span class="dv">1992</span>, <span class="dv">1992</span>, <span class="dv">1992</span>, <span class="dv">1993</span>,
+                            <span class="dv">1993</span>, <span class="dv">1993</span>, <span class="dv">1993</span>, <span class="dv">1994</span>, <span class="dv">1994</span>, <span class="dv">1994</span>, <span class="dv">1994</span>),
+                   <span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;gamma&quot;</span>, <span class="st">&quot;delta&quot;</span>, <span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>,
+                            <span class="st">&quot;gamma&quot;</span>, <span class="st">&quot;delta&quot;</span>, <span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;gamma&quot;</span>, <span class="st">&quot;delta&quot;</span>,
+                            <span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;gamma&quot;</span>, <span class="st">&quot;delta&quot;</span>),
+                   <span class="dt">value =</span> <span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">43</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">20</span>, <span class="dv">17</span>,
+                            <span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">25</span>, <span class="dv">32</span>))</code></pre></div>
+<p>Não precisamos nos preocupar com o <code>jsonlite</code> agora, pois o pacote <code>D3plusR</code> é faz essa conversão.</p>
+<p>A segunda parte do código (<code>visualization</code>) cria a visualização. Cada método é representado por um método (<code>.metodo()</code>). Ou seja, <code>.data()</code> refere-se ao método de dados, <code>.type()</code> controla o tipo de gráfico, <code>.size()</code> controla opções refente a codificação visual de tamanho etc. De maneira geral, o pacote <code>D3plusR</code> fornece uma função para cada método desse. Por exemplo, o método <code>.size()</code> é utilizado a partir da função <code>d3plusSize()</code>.</p>
+<p>Vale ressaltar que alguns métodos mais comuns e que não usam muitas opções já estão disponíveis na função <code>d3plus()</code>, que é a função utilizada para inicializar a visualização. Por exemplo, ao invés de usar <code>d3plusData()</code>, pode-se passar diretamente o data.frame no argumento <code>data</code>. O mesmo vale para <code>type</code> e <code>id</code>. A função também fornece uma funcionalidades extras que serão descritas mais a frente, como a possibilidade de uso de um dicionário e definição de características de moeda.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(D3plusR)
+<span class="kw">library</span>(jsonlite)
+<span class="kw">library</span>(dplyr)
+
+<span class="kw">d3plus</span>(<span class="dt">data =</span> data,
+             <span class="dt">type =</span> <span class="st">&quot;bar&quot;</span>, 
+             <span class="dt">id =</span> <span class="st">&quot;name&quot;</span>,
+             <span class="dt">height =</span> <span class="dv">500</span>,
+             <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusX</span>(<span class="st">&quot;year&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusY</span>(<span class="st">&quot;value&quot;</span>)</code></pre></div>
+<div id="htmlwidget-6cbbcb9f0e62b91f961e" style="width:100%;height:500px;" class="d3plus html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6cbbcb9f0e62b91f961e">{"x":{"data":{"year":[1991,1991,1991,1991,1992,1992,1992,1992,1993,1993,1993,1993,1994,1994,1994,1994],"name":["alpha","beta","gamma","delta","alpha","beta","gamma","delta","alpha","beta","gamma","delta","alpha","beta","gamma","delta"],"value":[15,10,5,50,20,10,10,43,30,40,20,17,60,60,25,32]},"settings":{"type":"bar","id":["name"],"title":["function (main = NULL, sub = NULL, xlab = NULL, ylab = NULL, ","    line = NA, outer = FALSE, ...) ","{","    main <- as.graphicsAnnot(main)","    sub <- as.graphicsAnnot(sub)","    xlab <- as.graphicsAnnot(xlab)","    ylab <- as.graphicsAnnot(ylab)","    .External.graphics(C_title, main, sub, xlab, ylab, line, ","        outer, ...)","    invisible()","}"],"currency":"US$","number_text":["K","M","M","B","B"],"currency_var":null,"percent_var":null,"noformat_number_var":null,"locale":"en_US","dictionary":{}},"d3plusAxisX":{"value":"year"},"d3plusAxisY":{"value":"value"}},"evals":[],"jsHooks":[]}</script>
+<p>O <code>id</code> é um pouco específico do pacote. Ele serve de identificador de cada ponto. No caso da visualização acima, cada <code>name</code> é um identificador daquele ponto. No exemplo acima, <code>name</code> poderia ser o nome de um país. A variável <code>value</code> é usada para definir o valor de <code>y</code> de cada barra e <code>year</code> informa o valor de <code>x</code>. O entendimento do <code>id</code> fica mais claro com os demais exemplos.</p>
+<p>Veja também a lógica de encadeamento com o <code>%&gt;%</code> que replica uma estrutura similar ao código original.</p>
+<p>Para finalizar esse capítulo, vamos apenas incluir um título:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">d3plus</span>(<span class="dt">data =</span> data,
+             <span class="dt">type =</span> <span class="st">&quot;bar&quot;</span>, 
+             <span class="dt">id =</span> <span class="st">&quot;name&quot;</span>,
+             <span class="dt">height =</span> <span class="dv">500</span>,
+             <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusX</span>(<span class="st">&quot;year&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusY</span>(<span class="st">&quot;value&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">d3plusTitle</span>(<span class="dt">value =</span> <span class="st">&quot;Minha primeira visualização com D3plusR&quot;</span>,
+              <span class="dt">sub =</span> <span class="st">&quot;Um simples gráfico de barras&quot;</span>,
+              <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">22</span>, <span class="dt">weight =</span> <span class="dv">900</span>))</code></pre></div>
+<div id="htmlwidget-f56d752d8cb16a109409" style="width:100%;height:500px;" class="d3plus html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f56d752d8cb16a109409">{"x":{"data":{"year":[1991,1991,1991,1991,1992,1992,1992,1992,1993,1993,1993,1993,1994,1994,1994,1994],"name":["alpha","beta","gamma","delta","alpha","beta","gamma","delta","alpha","beta","gamma","delta","alpha","beta","gamma","delta"],"value":[15,10,5,50,20,10,10,43,30,40,20,17,60,60,25,32]},"settings":{"type":"bar","id":["name"],"title":["function (main = NULL, sub = NULL, xlab = NULL, ylab = NULL, ","    line = NA, outer = FALSE, ...) ","{","    main <- as.graphicsAnnot(main)","    sub <- as.graphicsAnnot(sub)","    xlab <- as.graphicsAnnot(xlab)","    ylab <- as.graphicsAnnot(ylab)","    .External.graphics(C_title, main, sub, xlab, ylab, line, ","        outer, ...)","    invisible()","}"],"currency":"US$","number_text":["K","M","M","B","B"],"currency_var":null,"percent_var":null,"noformat_number_var":null,"locale":"en_US","dictionary":{}},"d3plusAxisX":{"value":"year"},"d3plusAxisY":{"value":"value"},"d3plusTitle":{"value":"Minha primeira visualização com D3plusR","sub":"Um simples gráfico de barras","font":{"size":22,"weight":900}}},"evals":[],"jsHooks":[]}</script>
+<p>O importante aqui é perceber que:</p>
+<ol style="list-style-type: decimal">
+<li>Um único valor sem o nome do argumento, como em <code>d3plusY(&quot;value&quot;)</code>, é o equivalente a <code>d3plusY(value = &quot;value&quot;)</code></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">d3plusY</span>(<span class="dt">value =</span> <span class="st">&quot;value&quot;</span>)</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Se forem passados vários argumentos é preciso nomeá-los:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">d3plusTitle</span>(<span class="dt">value =</span> <span class="st">&quot;Título&quot;</span>, <span class="dt">sub =</span> <span class="st">&quot;Subtítulo&quot;</span>)</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Se um argumento puder receber opções, essas opções, <strong>em regra</strong>, serão passadas por meio de uma lista nomeada:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">d3plusTitle</span>(<span class="dt">value =</span> <span class="st">&quot;Minha primeira visualização com D3plusR&quot;</span>,
+              <span class="dt">sub =</span> <span class="st">&quot;Um simples gráfico de barras&quot;</span>,
+              <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">22</span>, <span class="dt">weight =</span> <span class="dv">900</span>))</code></pre></div>
+
+</div>
+</div>
+<p style="text-align: center;">
+<a href="json-javascript-object-notation.html"><button class="btn btn-default">Previous</button></a>
+<a href="visualizacoes-de-barras.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>
