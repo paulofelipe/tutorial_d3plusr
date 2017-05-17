@@ -1,29 +1,59 @@
-# JSON (JavaScript Object Notation)
+# Opções do D3plus
 
 ## Introdução
 
-Apesar do entendimento dessa seção não ser estritamente necessário para utilização do pacote, o conhecimento sobre `JSON`, que é estrutura de dados de JavaScript, contribuirá para um uso mais completo da ferramenta. Por exemplo, será possível que o usuário entenda os exemplos em JavaScript que estão disponíveis em diversas fontes (página do d3plus, github e grupo no google) e os transcreva mais facilmente para a sintaxe do pacote `D3plusR`.
+Como dito no capítulo anterior, as opções do D3plus estão listadas [**neste link**](https://github.com/alexandersimoes/d3plus/wiki/Visualizations). O D3plus utiliza uma estrutura de métodos encadeados. Os métodos são, por exemplo, `.x()`, `.y()` e `.color()`. É importante que o usuário conheça bem a página de opções e tenha algum conhecimento sobre tipos de dados em JavaScript. Veja na figura abaixo um exemplo de opções para o método `.axes()` (no D3plusR, `d3plusAxes()`). Preste atenção em todas as colunas.
 
-Como dito no capítulo anterior, o pacote htmlwidgets possibilita o uso de bibliotecas javascript no R. No entanto, é necessário um mecanismo de comunicação entre as duas tecnologias para que os dados do R sejam convertidos para `JSON`. O `D3plusR` usa pacote `jsonlite` para conversão de estruturas de dados de R (data.frame, listas, vetores) para json.
+![Opções para o método .axes()](images/d3plus_axes.png)
+
+Na figura acima, vemos que o método `.axes()` recebe um objeto que pode ter três pares **key/value**. No entanto, perceba que a _key_ `background` recebe um objeto que aceita outras **keys/values**. Ou seja, um objeto recebendo um objeto. Basicamente, a lógica **key/value** é e equivalente no R a argumentos/valores.
+
+Por exemplo, na biblioteca original, se o usuário quisesse configurar aspectos relativos aos eixos, poderia escrever o seguinte código:
+
+```js
+.axes({"ticks": false, "background": {"color": "#FFFFFF", "stroke": {"width": 0}}})
+```
+
+No pacote `D3plusR`, esta disponível a função `d3plusAxes()`. No entanto, é necessário saber qual estrutura de dados do R replica a estrutura acima. Isto seria feito da seguinte forma:
+
+```{r, message=FALSE, warning=FALSE}
+library(D3plusR)
+library(dplyr)
+
+# Inicia uma visualização apenas para apresentar a função d3plusAxes
+d3 <- d3plus() %>% 
+d3plusAxes(ticks = FALSE, background = list(color = "#FFFFFF", stroke = list(width = 0)))
+
+# Acessando a lista criada
+d3$x$d3plusAxes
+```
+
+Como dito no capítulo anterior, o pacote htmlwidgets possibilita o uso de bibliotecas javascript no R. No entanto, é necessário um mecanismo de comunicação entre as duas tecnologias para que os dados do R sejam convertidos para JSON  (JavaScript Object Notation). O `D3plusR` usa pacote `jsonlite` para conversão de estruturas de dados de R (data.frame, listas, vetores) para json.Na próxima seção, iremos detalhar como cada estrutura de dados do R é convertida em uma estrutura correspondente em JSON.
+
+> Os argumentos das funções  do tipo `d3plusMetodo()` são agregados em uma lista.
+
+Apesar do entendimento dessa seção não ser estritamente necessário para utilização do pacote, o conhecimento sobre `JSON`, que é uma estrutura de dados de JavaScript, contribuirá para um uso mais completo da ferramenta. Por exemplo, será possível que o usuário entenda os exemplos em JavaScript que estão disponíveis em diversas fontes (página do d3plus, github e grupo no google) e os transcreva mais facilmente para a sintaxe do pacote `D3plusR`.
+
 
 Assumindo que o leitor já conhece a estrutra básica de dados do R, a próxima seção apresenta as estruturas básicas de JSON's.
 
 ## Tipos de dados 
 
-Basicamente, um JSON pode receber os seguintes tipos de dados válidos:
+Basicamente, os tipos de dados que podem ser passados como opção no D3plus são:
 
 * number 
 * string
 * object (json object)
 * array
 * boolean
+* function
 * null
 
-A maioria desses tipos de dados é de fácil entendimento para um usuário de R. No entanto, dois deles podem ser novidades, o `array` e o `object`.
+A maioria desses tipos de dados é de fácil entendimento para um usuário de R. No entanto, dois deles podem ser novidades, o `array` e o `object`. Por fim, também é possível passar funções em JavaScript. Como isto é um pouco avançado, vamos abstrair essa possibilidade por enquanto.
 
 ### Array
 
-O `array` é um tipo de dado em JavaScript é o equivalente a uma simples vetor para o R. Esse tipo de dado tem a seguinte estrutura:
+O `array` é um tipo de dado em JavaScript equivalente a uma simples vetor para o R. Esse tipo de dado tem a seguinte estrutura:
 ```js
 var names = ['João', 'José', 'Maria']
 ```
@@ -33,6 +63,8 @@ No R ele poderia ser criado e convertido para um JSON da seguinte forma:
 names <- c('João', 'José', 'Maria')
 jsonlite::toJSON(names)
 ```
+
+Ou seja, se o usuário desejar passar somente um `array` de dados, basta passar um vetor.
 
 ### Object
 
@@ -56,13 +88,15 @@ my_object =  data.frame(model = "fiat", year = 2015)
 jsonlite::toJSON(my_object, auto_unbox = TRUE)
 ```
 
-Note que agora o objeto está envolto `[]`. Ou seja, recebemos um `array` com único objeto. Se tívessos mais linhas no `data.frame` teríamos o seguinte resultado:
+Note que agora o objeto está envolto `[]`. Ou seja, recebemos um `array` com único objeto. Se tívessemos mais linhas no `data.frame` teríamos o seguinte resultado:
 
 ```{r}
 my_object =  data.frame(model = c("fiat", "chevrolet"),
                         year = c(2015, 2014))
 jsonlite::toJSON(my_object, auto_unbox = TRUE)
 ```
+
+> Se o os objetos de um array não possuem as mesmas chaves, é necessário usar lista de listas. Veremos um exemplo no capítulo de elementos de interface para o usuário.
 
 ### Objeto recebendo objeto
 
@@ -78,12 +112,7 @@ my_object2<- list(value = "Trade_Value", font = list(size = 12, weight = 900))
 jsonlite::toJSON(my_object2, auto_unbox = TRUE)
 ```
 
-## Por que complicar?
 
-Algumas pessoas podem se perguntar o porquê dessa "complicação", se a ideia é justamente abstrair a parte referente ao JavaScript. Resposta: **maximizar o uso da ferramenta e melhor entendimento da documentação**. 
 
-Os desenvolvedores da biblioteca D3plus disponibilizaram [esta página](https://github.com/alexandersimoes/d3plus/wiki/Visualizations) que lista os métodos e opções disponíveis. Atente para o fato de que as opções de cada método é dado por um objeto com pares **key/value**:
 
-![Opções para o método .axes()](images/d3plus_axes.png)
 
-Na figura acima, vemos que o método .axes() recebe um objeto que pode ter três pares **key/value**. No entanto, perceba que a _key_ `background` recebe um objeto que aceita outras _keys_. Ou seja, um objeto recebendo um objeto. No próximo capítulo, vamos para um exemplo de uso que talvez possa tornar tudo mais claro.

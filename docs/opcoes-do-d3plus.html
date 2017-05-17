@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Introdução ao pacote D3plusR" />
+<meta property="og:type" content="book" />
+
+
+<meta property="og:description" content="Tutorial do pacote D3plusR." />
+<meta name="github-repo" content="rstudio/bookdown-demo" />
+
+<meta name="author" content="Paulo Felipe Alencar de Oliveira" />
+
+<meta name="date" content="2017-12-05" />
+
+
+<meta name="description" content="Tutorial do pacote D3plusR.">
+
+<title>Introdução ao pacote D3plusR</title>
+
+<script src="libs/jquery-3.2.1/jquery-3.2.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="libs/d3plus-1.9.6/d3.min.js"></script>
+<script src="libs/d3plus-1.9.6/d3plus.min.js"></script>
+<script src="libs/d3plus-1.9.6/topojson.js"></script>
+<script src="libs/d3plus-binding-0.0.1/d3plus.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+$('document').ready(function(){
+	var btn = $(".btn")
+	btn = btn.addClass("btn-primary")
+	btn.each(function(d){
+		var button = btn[d]
+
+		if(button.innerHTML === "Previous"){
+			button.innerHTML = "Anterior"
+		} else {
+			button.innerHTML = "Próximo"
+		}
+	})
+});
+	
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link rel="stylesheet" href="my_style.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#visao-geral"><span class="toc-section-number">1</span> Visão Geral</a><ul>
+<li><a href="index.html#sobre-o-d3plus-e-o-d3plusr"><span class="toc-section-number">1.1</span> Sobre o D3plus e o D3plusR</a></li>
+<li><a href="index.html#instalando-o-pacote"><span class="toc-section-number">1.2</span> Instalando o pacote</a></li>
+<li><a href="index.html#pacotes-adicionais-necessario-para-o-tutorial"><span class="toc-section-number">1.3</span> Pacotes adicionais necessário para o tutorial</a></li>
+<li><a href="index.html#opcoes-das-funcoes"><span class="toc-section-number">1.4</span> Opções das funções</a></li>
+<li><a href="index.html#dados-utilizados-nos-exeplos"><span class="toc-section-number">1.5</span> Dados utilizados nos exeplos</a></li>
+</ul></li>
+<li class="has-sub"><a href="opcoes-do-d3plus.html#opcoes-do-d3plus"><span class="toc-section-number">2</span> Opções do D3plus</a><ul>
+<li><a href="opcoes-do-d3plus.html#introducao"><span class="toc-section-number">2.1</span> Introdução</a></li>
+<li class="has-sub"><a href="opcoes-do-d3plus.html#tipos-de-dados"><span class="toc-section-number">2.2</span> Tipos de dados</a><ul>
+<li><a href="opcoes-do-d3plus.html#array"><span class="toc-section-number">2.2.1</span> Array</a></li>
+<li><a href="opcoes-do-d3plus.html#object"><span class="toc-section-number">2.2.2</span> Object</a></li>
+<li><a href="opcoes-do-d3plus.html#objeto-recebendo-objeto"><span class="toc-section-number">2.2.3</span> Objeto recebendo objeto</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="primeiro-exemplo.html#primeiro-exemplo"><span class="toc-section-number">3</span> Primeiro Exemplo</a><ul>
+<li><a href="primeiro-exemplo.html#criando-uma-simples-visualizacao-de-barras"><span class="toc-section-number">3.1</span> Criando uma simples visualização de barras</a></li>
+</ul></li>
+<li class="has-sub"><a href="barras.html#barras"><span class="toc-section-number">4</span> Barras</a><ul>
+<li><a href="barras.html#dados"><span class="toc-section-number">4.1</span> Dados</a></li>
+<li><a href="barras.html#criando-a-visualizacao"><span class="toc-section-number">4.2</span> Criando a visualização</a></li>
+<li><a href="barras.html#adicionando-outros-elementos"><span class="toc-section-number">4.3</span> Adicionando outros elementos</a></li>
+<li><a href="barras.html#incluindo-um-dicionario"><span class="toc-section-number">4.4</span> Incluindo um dicionário</a></li>
+<li><a href="barras.html#estrutura-hierarquica"><span class="toc-section-number">4.5</span> Estrutura Hierárquica</a></li>
+</ul></li>
+<li><a href="tree-map.html#tree-map"><span class="toc-section-number">5</span> Tree map</a></li>
+<li><a href="geomap.html#geomap"><span class="toc-section-number">6</span> Geomap</a></li>
+<li class="has-sub"><a href="atributos.html#atributos"><span class="toc-section-number">7</span> Atributos</a><ul>
+<li class="has-sub"><a href="atributos.html#exemplo-de-atributos-de-cores"><span class="toc-section-number">7.1</span> Exemplo de atributos de cores</a><ul>
+<li><a href="atributos.html#definindo-atributos-para-os-dois-niveis"><span class="toc-section-number">7.1.1</span> Definindo atributos para os dois níveis</a></li>
+</ul></li>
+<li><a href="atributos.html#icones"><span class="toc-section-number">7.2</span> Ícones</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="opcoes-do-d3plus" class="section level1">
+<h1><span class="header-section-number"> 2</span> Opções do D3plus</h1>
+<div id="introducao" class="section level2">
+<h2><span class="header-section-number">2.1</span> Introdução</h2>
+<p>Como dito no capítulo anterior, as opções do D3plus estão listadas <a href="https://github.com/alexandersimoes/d3plus/wiki/Visualizations"><strong>neste link</strong></a>. O D3plus utiliza uma estrutura de métodos encadeados. Os métodos são, por exemplo, <code>.x()</code>, <code>.y()</code> e <code>.color()</code>. É importante que o usuário conheça bem a página de opções e tenha algum conhecimento sobre tipos de dados em JavaScript. Veja na figura abaixo um exemplo de opções para o método <code>.axes()</code> (no D3plusR, <code>d3plusAxes()</code>). Preste atenção em todas as colunas.</p>
+<div class="figure">
+<img src="images/d3plus_axes.png" alt="Opções para o método .axes()" />
+<p class="caption">Opções para o método .axes()</p>
+</div>
+<p>Na figura acima, vemos que o método <code>.axes()</code> recebe um objeto que pode ter três pares <strong>key/value</strong>. No entanto, perceba que a <em>key</em> <code>background</code> recebe um objeto que aceita outras <strong>keys/values</strong>. Ou seja, um objeto recebendo um objeto. Basicamente, a lógica <strong>key/value</strong> é e equivalente no R a argumentos/valores.</p>
+<p>Por exemplo, na biblioteca original, se o usuário quisesse configurar aspectos relativos aos eixos, poderia escrever o seguinte código:</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript">.<span class="at">axes</span>(<span class="op">{</span><span class="st">&quot;ticks&quot;</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span> <span class="st">&quot;background&quot;</span><span class="op">:</span> <span class="op">{</span><span class="st">&quot;color&quot;</span><span class="op">:</span> <span class="st">&quot;#FFFFFF&quot;</span><span class="op">,</span> <span class="st">&quot;stroke&quot;</span><span class="op">:</span> <span class="op">{</span><span class="st">&quot;width&quot;</span><span class="op">:</span> <span class="dv">0</span><span class="op">}}}</span>)</code></pre></div>
+<p>No pacote <code>D3plusR</code>, esta disponível a função <code>d3plusAxes()</code>. No entanto, é necessário saber qual estrutura de dados do R replica a estrutura acima. Isto seria feito da seguinte forma:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(D3plusR)
+<span class="kw">library</span>(dplyr)
+
+<span class="co"># Inicia uma visualização apenas para apresentar a função d3plusAxes</span>
+d3 &lt;-<span class="st"> </span><span class="kw">d3plus</span>() %&gt;%<span class="st"> </span>
+<span class="kw">d3plusAxes</span>(<span class="dt">ticks =</span> <span class="ot">FALSE</span>, <span class="dt">background =</span> <span class="kw">list</span>(<span class="dt">color =</span> <span class="st">&quot;#FFFFFF&quot;</span>, <span class="dt">stroke =</span> <span class="kw">list</span>(<span class="dt">width =</span> <span class="dv">0</span>)))
+
+<span class="co"># Acessando a lista criada</span>
+d3$x$d3plusAxes</code></pre></div>
+<pre><code>## {&quot;ticks&quot;:false,&quot;mirror&quot;:false,&quot;background&quot;:{&quot;color&quot;:&quot;#FFFFFF&quot;,&quot;stroke&quot;:{&quot;width&quot;:0}}}</code></pre>
+<p>Como dito no capítulo anterior, o pacote htmlwidgets possibilita o uso de bibliotecas javascript no R. No entanto, é necessário um mecanismo de comunicação entre as duas tecnologias para que os dados do R sejam convertidos para JSON (JavaScript Object Notation). O <code>D3plusR</code> usa pacote <code>jsonlite</code> para conversão de estruturas de dados de R (data.frame, listas, vetores) para json.Na próxima seção, iremos detalhar como cada estrutura de dados do R é convertida em uma estrutura correspondente em JSON.</p>
+<blockquote>
+<p>Os argumentos das funções do tipo <code>d3plusMetodo()</code> são agregados em uma lista.</p>
+</blockquote>
+<p>Apesar do entendimento dessa seção não ser estritamente necessário para utilização do pacote, o conhecimento sobre <code>JSON</code>, que é uma estrutura de dados de JavaScript, contribuirá para um uso mais completo da ferramenta. Por exemplo, será possível que o usuário entenda os exemplos em JavaScript que estão disponíveis em diversas fontes (página do d3plus, github e grupo no google) e os transcreva mais facilmente para a sintaxe do pacote <code>D3plusR</code>.</p>
+<p>Assumindo que o leitor já conhece a estrutra básica de dados do R, a próxima seção apresenta as estruturas básicas de JSON’s.</p>
+</div>
+<div id="tipos-de-dados" class="section level2">
+<h2><span class="header-section-number">2.2</span> Tipos de dados</h2>
+<p>Basicamente, os tipos de dados que podem ser passados como opção no D3plus são:</p>
+<ul>
+<li>number</li>
+<li>string</li>
+<li>object (json object)</li>
+<li>array</li>
+<li>boolean</li>
+<li>function</li>
+<li>null</li>
+</ul>
+<p>A maioria desses tipos de dados é de fácil entendimento para um usuário de R. No entanto, dois deles podem ser novidades, o <code>array</code> e o <code>object</code>. Por fim, também é possível passar funções em JavaScript. Como isto é um pouco avançado, vamos abstrair essa possibilidade por enquanto.</p>
+<div id="array" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Array</h3>
+<p>O <code>array</code> é um tipo de dado em JavaScript equivalente a uma simples vetor para o R. Esse tipo de dado tem a seguinte estrutura:</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="kw">var</span> names <span class="op">=</span> [<span class="st">&#39;João&#39;</span><span class="op">,</span> <span class="st">&#39;José&#39;</span><span class="op">,</span> <span class="st">&#39;Maria&#39;</span>]</code></pre></div>
+<p>No R ele poderia ser criado e convertido para um JSON da seguinte forma:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">names &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;João&#39;</span>, <span class="st">&#39;José&#39;</span>, <span class="st">&#39;Maria&#39;</span>)
+jsonlite::<span class="kw">toJSON</span>(names)</code></pre></div>
+<pre><code>## [&quot;João&quot;,&quot;José&quot;,&quot;Maria&quot;]</code></pre>
+<p>Ou seja, se o usuário desejar passar somente um <code>array</code> de dados, basta passar um vetor.</p>
+</div>
+<div id="object" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Object</h3>
+<p>Para o JSON, <code>object</code> é estrutura de informação composta por um par <strong>key/value</strong>, devendo ser delimitado por <code>{}</code>. Por exemplo:</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="kw">var</span> my_object <span class="op">=</span>  <span class="op">{</span><span class="st">&quot;model&quot;</span><span class="op">:</span> <span class="st">&quot;fiat&quot;</span><span class="op">,</span> <span class="st">&quot;year&quot;</span><span class="op">:</span> <span class="dv">2015</span><span class="op">}</span></code></pre></div>
+<p>Em R, faríamos o seguinte:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_object =<span class="st">  </span><span class="kw">list</span>(<span class="dt">model =</span> <span class="st">&quot;fiat&quot;</span>, <span class="dt">year =</span> <span class="dv">2015</span>)
+jsonlite::<span class="kw">toJSON</span>(my_object, <span class="dt">auto_unbox =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## {&quot;model&quot;:&quot;fiat&quot;,&quot;year&quot;:2015}</code></pre>
+<p>Usando o fato que cada um <code>data.frame</code> nada mais é uma lista em que cada elemento tem o mesmo comprimento, poderíamos obter um resultado similar a partir de um data.frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_object =<span class="st">  </span><span class="kw">data.frame</span>(<span class="dt">model =</span> <span class="st">&quot;fiat&quot;</span>, <span class="dt">year =</span> <span class="dv">2015</span>)
+jsonlite::<span class="kw">toJSON</span>(my_object, <span class="dt">auto_unbox =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [{&quot;model&quot;:&quot;fiat&quot;,&quot;year&quot;:2015}]</code></pre>
+<p>Note que agora o objeto está envolto <code>[]</code>. Ou seja, recebemos um <code>array</code> com único objeto. Se tívessemos mais linhas no <code>data.frame</code> teríamos o seguinte resultado:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_object =<span class="st">  </span><span class="kw">data.frame</span>(<span class="dt">model =</span> <span class="kw">c</span>(<span class="st">&quot;fiat&quot;</span>, <span class="st">&quot;chevrolet&quot;</span>),
+                        <span class="dt">year =</span> <span class="kw">c</span>(<span class="dv">2015</span>, <span class="dv">2014</span>))
+jsonlite::<span class="kw">toJSON</span>(my_object, <span class="dt">auto_unbox =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [{&quot;model&quot;:&quot;fiat&quot;,&quot;year&quot;:2015},{&quot;model&quot;:&quot;chevrolet&quot;,&quot;year&quot;:2014}]</code></pre>
+<blockquote>
+<p>Se o os objetos de um array não possuem as mesmas chaves, é necessário usar lista de listas. Veremos um exemplo no capítulo de elementos de interface para o usuário.</p>
+</blockquote>
+</div>
+<div id="objeto-recebendo-objeto" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Objeto recebendo objeto</h3>
+<p>E se quiséssemos saber qual é a estrutura de dados em R equivalente a estrutura abaixo?</p>
+<div class="sourceCode"><pre class="sourceCode js"><code class="sourceCode javascript"><span class="op">{</span><span class="st">&quot;value&quot;</span><span class="op">:</span> <span class="st">&quot;Trade_Value&quot;</span><span class="op">,</span> <span class="st">&quot;font&quot;</span><span class="op">:</span> <span class="op">{</span><span class="st">&quot;size&quot;</span><span class="op">:</span> <span class="dv">12</span><span class="op">,</span> <span class="st">&quot;weight&quot;</span><span class="op">:</span> <span class="dv">900</span><span class="op">}}</span></code></pre></div>
+<p>No caso, temos um objeto com dois pares <strong>key/value</strong>, mas o valor da segunda entrada é também um objeto. Dessa forma, faríamos o seguinte:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_object2&lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">value =</span> <span class="st">&quot;Trade_Value&quot;</span>, <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">12</span>, <span class="dt">weight =</span> <span class="dv">900</span>))
+jsonlite::<span class="kw">toJSON</span>(my_object2, <span class="dt">auto_unbox =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## {&quot;value&quot;:&quot;Trade_Value&quot;,&quot;font&quot;:{&quot;size&quot;:12,&quot;weight&quot;:900}}</code></pre>
+
+</div>
+</div>
+</div>
+<p style="text-align: center;">
+<a href="index.html"><button class="btn btn-default">Previous</button></a>
+<a href="primeiro-exemplo.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

@@ -1,2 +1,78 @@
-# Visualizações de geomap
+# Geomap
+
+Há duas possibilidades de se trabalhar com mapas no `D3plusR`:
+
+1. Importar os dados do mapa usando o pacote `jsonlite`
+2. Indicar o endereço do arquivo
+
+A segunda opção não funciona para visualizações que serão geradas diretamente no Viewer do RStudio. Isto ocorre porque o htmlwidget gerado diretamente no RStudio é criado em um arquivo temporário e, por questões de segurança, não tem permissão para acessar arquivos de outras pastas. Nesse caso, deve-se usar a primeira solução.
+
+O outro ponto importante é formato do arquivo do mapa. O D3plus precisa de um arquivo no formato `topojson`. O pacote D3plusR fornece um arquivo para o mapa mundial. A localização desse arquivo pode ser obtida da seguinte forma:
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(D3plusR)
+mapa <- system.file("extdata", "countries.topojson", package = "D3plusR")
+```
+
+Vamos criar um exemplo usando a primeira opção:
+
+```{r}
+# Carregar os dados do mapa
+# O identificador do mapa é o ISO A3 de cada país
+mapa <- jsonlite::fromJSON(mapa, simplifyVector = F)
+
+# Exportações Brasíleiras de 2015 por Destino
+data("bra_exp_2015")
+
+d3plus(data = bra_exp_2015,
+       type = "geo_map",
+       id = "Partner.ISO",
+       width = "100%",
+       height = 500) %>% 
+  d3plusCoords(mapa, projection = "equirectangular") %>% 
+  d3plusColor(value = "Trade.Value..US..") %>% 
+  d3plusTooltip(value = c("Trade.Value..US..", "Partner.ISO")) %>% 
+  d3plusLabels(FALSE) %>% 
+  d3plusText("Partner")
+```
+
+Utilizando a segunda opção:
+
+```{r}
+d3plus(data = bra_exp_2015,
+       type = "geo_map",
+       id = "Partner.ISO",
+       width = "100%",
+       height = 500) %>% 
+  d3plusCoords(value = "countries.topojson", projection = "equirectangular") %>% 
+  d3plusColor(value = "Trade.Value..US..") %>% 
+  d3plusTooltip(value = c("Trade.Value..US..", "Partner.ISO")) %>% 
+  d3plusLabels(FALSE) %>% 
+  d3plusText("Partner") %>% 
+  d3plusZoom(value = TRUE, scroll = FALSE) 
+```
+
+> É importante que o arquivo `countries.topojson` esteja em um caminho relativo em relação ao endereço do html gerado pelo rmarkdown ou da pasta `www` de uma aplicação Shiny.
+
+```{r}
+rem_rais_mg_2015 <- read.csv2('dados/rem_rais_mg_2015.csv')
+rem_rais_mg_2015$id <- as.character(rem_rais_mg_2015$id)
+
+
+d3plus(data = rem_rais_mg_2015, type = "geo_map",
+       id = "id",
+       width = "100%",
+       height = 500, 
+       locale = "pt_BR",
+       currency = "R$",
+       currency_var = "mediana",
+       number_text = c("Mil", "Milhão", "Milhões", "Bilhão", "Bilhões"),
+       elementId = "mg") %>% 
+  d3plusCoords('mapas/mg_munic.json', projection = "equirectangular") %>% 
+  d3plusLabels(FALSE) %>% 
+  d3plusColor(value = "mediana") %>% 
+  d3plusTooltip(c("NM_MUNICIP", "mediana")) %>% 
+  d3plusText("NM_MUNICIP")
+```
 

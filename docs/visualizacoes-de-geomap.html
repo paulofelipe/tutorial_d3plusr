@@ -26,7 +26,7 @@
 
 <script src="libs/jquery-3.2.1/jquery-3.2.1.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<link href="libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
 <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -37,6 +37,23 @@
 <script src="libs/d3plus-1.9.6/topojson.js"></script>
 <script src="libs/d3plus-binding-0.0.1/d3plus.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+$('document').ready(function(){
+	var btn = $(".btn")
+	btn = btn.addClass("btn-primary")
+	btn.each(function(d){
+		var button = btn[d]
+
+		if(button.innerHTML === "Previous"){
+			button.innerHTML = "Anterior"
+		} else {
+			button.innerHTML = "Próximo"
+		}
+	})
+});
+	
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -119,21 +136,23 @@ img {
 <li><a href="index.html#opcoes-das-funcoes"><span class="toc-section-number">1.4</span> Opções das funções</a></li>
 <li><a href="index.html#dados-utilizados-nos-exeplos"><span class="toc-section-number">1.5</span> Dados utilizados nos exeplos</a></li>
 </ul></li>
-<li class="has-sub"><a href="json-javascript-object-notation.html#json-javascript-object-notation"><span class="toc-section-number">2</span> JSON (JavaScript Object Notation)</a><ul>
-<li><a href="json-javascript-object-notation.html#introducao"><span class="toc-section-number">2.1</span> Introdução</a></li>
-<li class="has-sub"><a href="json-javascript-object-notation.html#tipos-de-dados"><span class="toc-section-number">2.2</span> Tipos de dados</a><ul>
-<li><a href="json-javascript-object-notation.html#array"><span class="toc-section-number">2.2.1</span> Array</a></li>
-<li><a href="json-javascript-object-notation.html#object"><span class="toc-section-number">2.2.2</span> Object</a></li>
-<li><a href="json-javascript-object-notation.html#objeto-recebendo-objeto"><span class="toc-section-number">2.2.3</span> Objeto recebendo objeto</a></li>
+<li class="has-sub"><a href="opcoes-do-d3plus-e-json-javascript-object-notation.html#opcoes-do-d3plus-e-json-javascript-object-notation"><span class="toc-section-number">2</span> Opções do D3plus e JSON (JavaScript Object Notation)</a><ul>
+<li><a href="opcoes-do-d3plus-e-json-javascript-object-notation.html#introducao"><span class="toc-section-number">2.1</span> Introdução</a></li>
+<li class="has-sub"><a href="opcoes-do-d3plus-e-json-javascript-object-notation.html#tipos-de-dados"><span class="toc-section-number">2.2</span> Tipos de dados</a><ul>
+<li><a href="opcoes-do-d3plus-e-json-javascript-object-notation.html#array"><span class="toc-section-number">2.2.1</span> Array</a></li>
+<li><a href="opcoes-do-d3plus-e-json-javascript-object-notation.html#object"><span class="toc-section-number">2.2.2</span> Object</a></li>
+<li><a href="opcoes-do-d3plus-e-json-javascript-object-notation.html#objeto-recebendo-objeto"><span class="toc-section-number">2.2.3</span> Objeto recebendo objeto</a></li>
 </ul></li>
-<li><a href="json-javascript-object-notation.html#por-que-complicar"><span class="toc-section-number">2.3</span> Por que complicar?</a></li>
 </ul></li>
 <li class="has-sub"><a href="primeiro-exemplo.html#primeiro-exemplo"><span class="toc-section-number">3</span> Primeiro Exemplo</a><ul>
 <li><a href="primeiro-exemplo.html#criando-uma-simples-visualizacao-de-barras"><span class="toc-section-number">3.1</span> Criando uma simples visualização de barras</a></li>
 </ul></li>
-<li class="has-sub"><a href="visualizacoes-de-barras.html#visualizacoes-de-barras"><span class="toc-section-number">4</span> Visualizações de barras</a><ul>
-<li><a href="visualizacoes-de-barras.html#dados"><span class="toc-section-number">4.1</span> Dados</a></li>
-<li><a href="visualizacoes-de-barras.html#criando-a-visualizacao"><span class="toc-section-number">4.2</span> Criando a visualização</a></li>
+<li class="has-sub"><a href="barras.html#barras"><span class="toc-section-number">4</span> Barras</a><ul>
+<li><a href="barras.html#dados"><span class="toc-section-number">4.1</span> Dados</a></li>
+<li><a href="barras.html#criando-a-visualizacao"><span class="toc-section-number">4.2</span> Criando a visualização</a></li>
+<li><a href="barras.html#adicionando-outros-elementos"><span class="toc-section-number">4.3</span> Adicionando outros elementos</a></li>
+<li><a href="barras.html#incluindo-um-dicionario"><span class="toc-section-number">4.4</span> Incluindo um dicionário</a></li>
+<li><a href="barras.html#estrutura-hierarquica"><span class="toc-section-number">4.5</span> Estrutura Hierárquica</a></li>
 </ul></li>
 <li><a href="visualizacoes-de-treemap.html#visualizacoes-de-treemap"><span class="toc-section-number">5</span> Visualizações de treemap</a></li>
 <li><a href="visualizacoes-de-geomap.html#visualizacoes-de-geomap"><span class="toc-section-number">6</span> Visualizações de geomap</a></li>

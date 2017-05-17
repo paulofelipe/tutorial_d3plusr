@@ -1,2 +1,37 @@
-# Visualizações de treemap
+# Tree map
+
+Os dados usados abaixo são das exportações brasileiras para China a partir de 2015, considerando o período parcial até abril, como também o total dos anos de 2015 e 2016. Os dados estão desagregados por fator agregado e principais produtos exportados e importados.
+
+```{r}
+library(D3plusR)
+library(dplyr)
+dados_chn <- read.csv2('dados/chn.csv', stringsAsFactors = FALSE)
+
+dados_chn_exp <- dados_chn %>% 
+  filter(TIPO == "EXPORTAÇÕES", PERIODO == "Total")
+
+d3plus(dados_chn_exp, type = "tree_map", id = c("NO_FAT_AGREG", "NO_PPE_PPI"),
+       width = "100%", height = 500) %>% 
+  d3plusSize("VL_FOB")
+```
+
+Para que o d3plus possa mostrar as participações, é necessário que os rótulos (_labels_) tenham o seu alinhamento vertical definido para o topo.
+
+```{r}
+d3plus(dados_chn_exp, type = "tree_map", id = c("NO_FAT_AGREG", "NO_PPE_PPI"),
+       width = "100%", height = 500) %>% 
+  d3plusSize("VL_FOB") %>% 
+  d3plusLabels(value = TRUE, valign = "top")
+```
+
+Agora, vamos definir que o nível de profundidade da visualização é o de produtos e a cor sendo definida pelo fator agregado:
+```{r}
+d3plus(dados_chn_exp, type = "tree_map", id = c("NO_FAT_AGREG", "NO_PPE_PPI"),
+       width = "100%", height = 500) %>% 
+  d3plusSize("VL_FOB") %>% 
+  d3plusLabels(value = TRUE, valign = "top") %>% 
+  d3plusDepth(1) %>% 
+  d3plusColor(value = "NO_FAT_AGREG") %>% 
+  d3plusLegend(value = TRUE, order = list(value = "size", sort = "desc"))
+```
 

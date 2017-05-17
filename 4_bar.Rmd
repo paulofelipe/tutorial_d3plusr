@@ -1,4 +1,4 @@
-# Visualizações de barras
+# Barras
 
 ## Dados
 
@@ -40,10 +40,117 @@ d3plus(data = dados %>% filter(CO_ANO >= 2005),
        number_text = c("Mil", "Milhão", "Milhões", "Bilhão", "Bilhões"),
        currency_var = "VL_FOB",
        noformat_number_var = "CO_ANO") %>%
-  d3plusX(value = "CO_ANO", grid = FALSE) %>% 
-  d3plusY(value = "VL_FOB", grid = TRUE, label = list(value = "Valor FOB",
-                                                       font = list(size = 40))) %>% 
+  d3plusX(value = "CO_ANO", grid = FALSE,
+          persist = list(position = TRUE)) %>% 
+  d3plusY(value = "VL_FOB", grid = TRUE) %>% 
   d3plusAxes(ticks = FALSE, background = list(color = "#FFFFFF", stroke = list(width = 0)))
+```
+
+## Adicionando outros elementos
+
+```{r}
+d3plus(data = dados %>% filter(CO_ANO >= 2005),
+       type = "bar",
+       id = "TIPO",
+       width = "100%",
+       height = 500, 
+       locale = "pt_BR",
+       currency = "US$",
+       number_text = c("Mil", "Milhão", "Milhões", "Bilhão", "Bilhões"),
+       currency_var = "VL_FOB",
+       noformat_number_var = "CO_ANO") %>%
+  d3plusX(value = "CO_ANO", grid = FALSE,
+          persist = list(position = TRUE)) %>% 
+  d3plusY(value = "VL_FOB", grid = TRUE) %>% 
+  d3plusAxes(ticks = FALSE,
+             background = list(color = "#FFFFFF", stroke = list(width = 0))) %>% 
+  d3plusTime("CO_ANO") %>% 
+  d3plusTooltip(c("CO_ANO", "VL_FOB")) %>% 
+  d3plusColor("TIPO", scale = c("#3C8BE6", "#6E8749")) %>% 
+  d3plusLegend(value = TRUE, data = FALSE) 
+```
+
+> Para que a ordem das barras guarde correspondência com a ordem que aparece nos dados, é preciso que a variável responsável pelo eixo x seja do tipo `character`.
+
+```{r}
+dados$CO_ANO <- as.character(dados$CO_ANO)
+dados$TIPO <- as.character(dados$TIPO)
+d3plus(data = dados %>% filter(CO_ANO >= 2005),
+       type = "bar",
+       id = "TIPO",
+       width = "100%",
+       height = 500, 
+       locale = "pt_BR",
+       currency = "US$",
+       number_text = c("Mil", "Milhão", "Milhões", "Bilhão", "Bilhões"),
+       currency_var = "VL_FOB",
+       noformat_number_var = "CO_ANO") %>%
+  d3plusX(value = "CO_ANO", grid = FALSE,
+          persist = list(position = TRUE)) %>% 
+  d3plusY(value = "VL_FOB", grid = TRUE) %>% 
+  d3plusAxes(ticks = FALSE,
+             background = list(color = "#FFFFFF", stroke = list(width = 0))) %>% 
+  d3plusTime("CO_ANO") %>% 
+  d3plusTooltip(c("CO_ANO", "VL_FOB")) %>% 
+  d3plusColor("TIPO", scale = c("#6E8749", "#3C8BE6")) %>% 
+  d3plusLegend(value = TRUE, data = FALSE,
+               order = list(sort = "desc"),
+               size = 35)
+```
+
+## Incluindo um dicionário
+
+A função `d3plus()` tem um argumento que pode ser receber um dicionário (uma lista). Esse dicionário pode ser usado para traduzir nomes de variáveis para textos mais amigáveis, por exemplo.
+
+```{r}
+dicionario <- list(VL_FOB = "Valor FOB",
+                   CO_ANO = "Ano",
+                   IMP = "Importações",
+                   EXP = "Exportações",
+                   isolar = "Selecionar",
+                   ocultar = "Esconder")
+
+d3plus(data = dados %>% filter(CO_ANO >= 2005),
+       type = "bar",
+       id = "TIPO",
+       width = "100%",
+       height = 500, 
+       locale = "pt_BR",
+       currency = "US$",
+       number_text = c("Mil", "Milhão", "Milhões", "Bilhão", "Bilhões"),
+       currency_var = "VL_FOB",
+       noformat_number_var = "CO_ANO",
+       dictionary = dicionario) %>%
+  d3plusX(value = "CO_ANO", grid = FALSE,
+          persist = list(position = TRUE)) %>% 
+  d3plusY(value = "VL_FOB", grid = TRUE) %>% 
+  d3plusAxes(ticks = FALSE,
+             background = list(color = "#FFFFFF", stroke = list(width = 0))) %>% 
+  d3plusTime("CO_ANO") %>% 
+  d3plusTooltip(c("CO_ANO", "VL_FOB")) %>% 
+  d3plusColor("TIPO", scale = c("#6E8749", "#3C8BE6")) %>% 
+  d3plusLegend(value = TRUE, data = FALSE,
+               order = list(value = "id", sort = "asc"),
+               size = 35)
+```
+
+## Estrutura Hierárquica 
+
+O usuário pode especificar mais de um nível no `id`. Assim, a visualização criada apresentará os dados no primeiro nível e abrirá o segundo nível a partir de um clique. O nível inicial pode ser escolhido a partir da função `d3plusDepth()` (sendo o valor `0` para o primerio nível).
+
+```{r}
+bra_chn_fat <- read.csv2('dados/chn_anual_fat.csv')
+bra_chn_fat$CO_ANO <- as.character(bra_chn_fat$CO_ANO)
+head(bra_chn_fat)
+
+d3plus(bra_chn_fat, type = "bar", id = c("TIPO", "NO_FAT_AGREG"),
+       width = "100%",
+       height = 500) %>% 
+  d3plusX(value = "CO_ANO", grid = FALSE, 
+          persist = list(position = TRUE)) %>% 
+  d3plusY(value = "VL_FOB", grid = TRUE, stacked = c(TRUE, FALSE)) %>% 
+  d3plusDepth(0) %>% 
+  d3plusColor(value = "TIPO", scale = "category10")
 ```
 
 

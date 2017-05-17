@@ -1,1 +1,18 @@
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+$('document').ready(function(){
+	var btn = $(".btn")
+	btn = btn.addClass("btn-primary")
+	btn.each(function(d){
+		var button = btn[d]
+
+		if(button.innerHTML === "Previous"){
+			button.innerHTML = "Anterior"
+		} else {
+			button.innerHTML = "Próximo"
+		}
+	})
+});
+	
+</script>
