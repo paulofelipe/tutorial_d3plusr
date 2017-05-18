@@ -6,4 +6,5 @@ language:
     chapter_name: " "
 output_dir: "docs"
 rmd_files: ["index.Rmd", "2_intro_json.Rmd", "3_primeiro_exemplo.Rmd",
-"4_bar.Rmd", "5_treemap.Rmd", "6_geomap.Rmd", "7_atributos.Rmd"]
+"4_bar.Rmd", "5_treemap.Rmd", "6_geomap.Rmd", "7_atributos.Rmd",
+"8_shiny.Rmd", "9_jscode.Rmd"]

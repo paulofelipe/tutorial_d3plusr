@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Introdução ao pacote D3plusR" />
+<meta property="og:type" content="book" />
+
+
+<meta property="og:description" content="Tutorial do pacote D3plusR." />
+<meta name="github-repo" content="rstudio/bookdown-demo" />
+
+<meta name="author" content="Paulo Felipe Alencar de Oliveira" />
+
+<meta name="date" content="2017-12-05" />
+
+
+<meta name="description" content="Tutorial do pacote D3plusR.">
+
+<title>Introdução ao pacote D3plusR</title>
+
+<script src="libs/jquery-3.2.1/jquery-3.2.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="libs/d3plus-1.9.6/d3.min.js"></script>
+<script src="libs/d3plus-1.9.6/d3plus.min.js"></script>
+<script src="libs/d3plus-1.9.6/topojson.js"></script>
+<script src="libs/d3plus-binding-0.0.1/d3plus.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+$('document').ready(function(){
+	var btn = $(".btn")
+	btn = btn.addClass("btn-primary")
+	btn.each(function(d){
+		var button = btn[d]
+
+		if(button.innerHTML === "Previous"){
+			button.innerHTML = "Anterior"
+		} else {
+			button.innerHTML = "Próximo"
+		}
+	})
+});
+	
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link rel="stylesheet" href="my_style.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#visao-geral"><span class="toc-section-number">1</span> Visão Geral</a><ul>
+<li><a href="index.html#sobre-o-d3plus-e-o-d3plusr"><span class="toc-section-number">1.1</span> Sobre o D3plus e o D3plusR</a></li>
+<li><a href="index.html#instalando-o-pacote"><span class="toc-section-number">1.2</span> Instalando o pacote</a></li>
+<li><a href="index.html#pacotes-adicionais-necessario-para-o-tutorial"><span class="toc-section-number">1.3</span> Pacotes adicionais necessário para o tutorial</a></li>
+<li><a href="index.html#opcoes-das-funcoes"><span class="toc-section-number">1.4</span> Opções das funções</a></li>
+<li><a href="index.html#dados-utilizados-nos-exeplos"><span class="toc-section-number">1.5</span> Dados utilizados nos exeplos</a></li>
+</ul></li>
+<li class="has-sub"><a href="opcoes-do-d3plus.html#opcoes-do-d3plus"><span class="toc-section-number">2</span> Opções do D3plus</a><ul>
+<li><a href="opcoes-do-d3plus.html#introducao"><span class="toc-section-number">2.1</span> Introdução</a></li>
+<li class="has-sub"><a href="opcoes-do-d3plus.html#tipos-de-dados"><span class="toc-section-number">2.2</span> Tipos de dados</a><ul>
+<li><a href="opcoes-do-d3plus.html#array"><span class="toc-section-number">2.2.1</span> Array</a></li>
+<li><a href="opcoes-do-d3plus.html#object"><span class="toc-section-number">2.2.2</span> Object</a></li>
+<li><a href="opcoes-do-d3plus.html#objeto-recebendo-objeto"><span class="toc-section-number">2.2.3</span> Objeto recebendo objeto</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="primeiro-exemplo.html#primeiro-exemplo"><span class="toc-section-number">3</span> Primeiro Exemplo</a><ul>
+<li><a href="primeiro-exemplo.html#criando-uma-simples-visualizacao-de-barras"><span class="toc-section-number">3.1</span> Criando uma simples visualização de barras</a></li>
+</ul></li>
+<li class="has-sub"><a href="barras.html#barras"><span class="toc-section-number">4</span> Barras</a><ul>
+<li><a href="barras.html#dados"><span class="toc-section-number">4.1</span> Dados</a></li>
+<li><a href="barras.html#criando-a-visualizacao"><span class="toc-section-number">4.2</span> Criando a visualização</a></li>
+<li><a href="barras.html#adicionando-outros-elementos"><span class="toc-section-number">4.3</span> Adicionando outros elementos</a></li>
+<li><a href="barras.html#incluindo-um-dicionario"><span class="toc-section-number">4.4</span> Incluindo um dicionário</a></li>
+<li><a href="barras.html#estrutura-hierarquica"><span class="toc-section-number">4.5</span> Estrutura Hierárquica</a></li>
+</ul></li>
+<li><a href="tree-map.html#tree-map"><span class="toc-section-number">5</span> Tree map</a></li>
+<li><a href="geomap.html#geomap"><span class="toc-section-number">6</span> Geomap</a></li>
+<li class="has-sub"><a href="atributos.html#atributos"><span class="toc-section-number">7</span> Atributos</a><ul>
+<li class="has-sub"><a href="atributos.html#exemplo-de-atributos-de-cores"><span class="toc-section-number">7.1</span> Exemplo de atributos de cores</a><ul>
+<li><a href="atributos.html#definindo-atributos-para-os-dois-niveis"><span class="toc-section-number">7.1.1</span> Definindo atributos para os dois níveis</a></li>
+</ul></li>
+<li><a href="atributos.html#icones"><span class="toc-section-number">7.2</span> Ícones</a></li>
+</ul></li>
+<li class="has-sub"><a href="shiny.html#shiny"><span class="toc-section-number">8</span> Shiny</a><ul>
+<li class="has-sub"><a href="shiny.html#exemplo-de-aplicacao."><span class="toc-section-number">8.1</span> Exemplo de Aplicação.</a><ul>
+<li><a href="shiny.html#preparacao"><span class="toc-section-number">8.1.1</span> Preparação</a></li>
+<li><a href="shiny.html#server"><span class="toc-section-number">8.1.2</span> Server</a></li>
+<li><a href="shiny.html#ui"><span class="toc-section-number">8.1.3</span> UI</a></li>
+<li><a href="shiny.html#codigo-completo"><span class="toc-section-number">8.1.4</span> Código completo</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="adicionando-codigo-javascript.html#adicionando-codigo-javascript"><span class="toc-section-number">9</span> Adicionando código JavaScript</a><ul>
+<li><a href="adicionando-codigo-javascript.html#codigo-javascript-apos-a-renderizacao"><span class="toc-section-number">9.1</span> Código JavaScript após a renderização</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="shiny" class="section level1">
+<h1><span class="header-section-number"> 8</span> Shiny</h1>
+<p>Todos os pacotes criados usando o <code>htmlwidgets</code> fornecem funções necessárias para criação de visualizações em aplicações <a href="https://shiny.rstudio.com/">shiny</a>.</p>
+<p>O pacote <code>D3plusR</code> fornece duas funções:</p>
+<ul>
+<li><code>renderD3plus()</code>: função usada no <code>server</code> da aplicação;</li>
+<li><code>d3plusOutput()</code>: função utilizada para a interface do usuário <code>ui</code>.</li>
+</ul>
+<div id="exemplo-de-aplicacao." class="section level2">
+<h2><span class="header-section-number">8.1</span> Exemplo de Aplicação.</h2>
+<p>O link para o arquivo completo da aplicação encontra-se <a href="https://github.com/paulofelipe/tutorial_d3plusr">aqui</a>.</p>
+<p>Nesta aplicação, vamos utilizar a <a href="https://comtrade.un.org/data/doc/api">API fornecida pelo Comtrade/UN</a>. Também é forcido o código para criação de uma <a href="https://comtrade.un.org/data/Doc/api/ex/r">função em R</a>, chamada de <code>get.comtrade()</code>.</p>
+<div id="preparacao" class="section level3">
+<h3><span class="header-section-number">8.1.1</span> Preparação</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<span class="kw">library</span>(D3plusR)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(tidyr)
+
+regions &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv&quot;</span>,
+                    <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+regions &lt;-<span class="st"> </span>regions %&gt;%
+<span class="st">  </span><span class="kw">select</span>(alpha<span class="fl">.3</span>, region) %&gt;%
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Partner.ISO =</span> alpha<span class="fl">.3</span>)
+
+string &lt;-<span class="st"> &quot;http://comtrade.un.org/data/cache/partnerAreas.json&quot;</span>
+reporters &lt;-<span class="st"> </span>jsonlite::<span class="kw">fromJSON</span>(string)$results
+paises &lt;-<span class="st"> </span>reporters$id
+<span class="kw">names</span>(paises) &lt;-<span class="st"> </span>reporters$text
+
+get.Comtrade &lt;-<span class="st"> </span>function(<span class="dt">url=</span><span class="st">&quot;https://comtrade.un.org/api/get?&quot;</span>
+                         ,<span class="dt">maxrec=</span><span class="dv">50000</span>
+                         ,<span class="dt">type=</span><span class="st">&quot;C&quot;</span>
+                         ,<span class="dt">freq=</span><span class="st">&quot;A&quot;</span>
+                         ,<span class="dt">px=</span><span class="st">&quot;HS&quot;</span>
+                         ,<span class="dt">ps=</span><span class="st">&quot;now&quot;</span>
+                         ,r
+                         ,p
+                         ,<span class="dt">rg=</span><span class="st">&quot;all&quot;</span>
+                         ,<span class="dt">cc=</span><span class="st">&quot;TOTAL&quot;</span>
+                         ,<span class="dt">fmt=</span><span class="st">&quot;json&quot;</span>
+)
+{
+  string&lt;-<span class="st"> </span><span class="kw">paste</span>(url
+                 ,<span class="st">&quot;max=&quot;</span>,maxrec,<span class="st">&quot;&amp;&quot;</span> <span class="co">#maximum no. of records returned</span>
+                 ,<span class="st">&quot;type=&quot;</span>,type,<span class="st">&quot;&amp;&quot;</span> <span class="co">#type of trade (c=commodities)</span>
+                 ,<span class="st">&quot;freq=&quot;</span>,freq,<span class="st">&quot;&amp;&quot;</span> <span class="co">#frequency</span>
+                 ,<span class="st">&quot;px=&quot;</span>,px,<span class="st">&quot;&amp;&quot;</span> <span class="co">#classification</span>
+                 ,<span class="st">&quot;ps=&quot;</span>,ps,<span class="st">&quot;&amp;&quot;</span> <span class="co">#time period</span>
+                 ,<span class="st">&quot;r=&quot;</span>,r,<span class="st">&quot;&amp;&quot;</span> <span class="co">#reporting area</span>
+                 ,<span class="st">&quot;p=&quot;</span>,p,<span class="st">&quot;&amp;&quot;</span> <span class="co">#partner country</span>
+                 ,<span class="st">&quot;rg=&quot;</span>,rg,<span class="st">&quot;&amp;&quot;</span> <span class="co">#trade flow</span>
+                 ,<span class="st">&quot;cc=&quot;</span>,cc,<span class="st">&quot;&amp;&quot;</span> <span class="co">#classification code</span>
+                 ,<span class="st">&quot;fmt=&quot;</span>,fmt        <span class="co">#Format</span>
+                 ,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>
+  )
+
+  if(fmt ==<span class="st"> &quot;csv&quot;</span>) {
+    raw.data&lt;-<span class="st"> </span><span class="kw">read.csv</span>(string,<span class="dt">header=</span><span class="ot">TRUE</span>)
+    <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">validation=</span><span class="ot">NULL</span>, <span class="dt">data=</span>raw.data))
+  } else {
+    if(fmt ==<span class="st"> &quot;json&quot;</span> ) {
+      raw.data&lt;-<span class="st"> </span>rjson::<span class="kw">fromJSON</span>(<span class="dt">file=</span>string)
+      data&lt;-<span class="st"> </span>raw.data$dataset
+      validation&lt;-<span class="st"> </span><span class="kw">unlist</span>(raw.data$validation, <span class="dt">recursive=</span><span class="ot">TRUE</span>)
+      ndata&lt;-<span class="st"> </span><span class="ot">NULL</span>
+      if(<span class="kw">length</span>(data)&gt;<span class="st"> </span><span class="dv">0</span>) {
+        var.names&lt;-<span class="st"> </span><span class="kw">names</span>(data[[<span class="dv">1</span>]])
+        data&lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>( <span class="kw">sapply</span>(data,rbind)))
+        ndata&lt;-<span class="st"> </span><span class="ot">NULL</span>
+        for(i in <span class="dv">1</span>:<span class="kw">ncol</span>(data)){
+          data[<span class="kw">sapply</span>(data[,i],is.null),i]&lt;-<span class="st"> </span><span class="ot">NA</span>
+          ndata&lt;-<span class="st"> </span><span class="kw">cbind</span>(ndata, <span class="kw">unlist</span>(data[,i]))
+        }
+        ndata&lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(ndata)
+        <span class="kw">colnames</span>(ndata)&lt;-<span class="st"> </span>var.names
+      }
+      <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">validation=</span>validation,<span class="dt">data =</span>ndata))
+    }
+  }
+}</code></pre></div>
+</div>
+<div id="server" class="section level3">
+<h3><span class="header-section-number">8.1.2</span> Server</h3>
+<p>No <code>server</code>, vamos apenas criar um objeto reativo (<code>data_un</code>) que faz a consulta na API e prepara os dados para a visualização. Com o objeto de daods pronto, adicionamos o treemap ou output (<code>output$treemap</code>) usando a função <code>renderD3plus()</code>. O código para visualização segue o padrão já tratado anteriormente. O único detalhe é que o conjunto de dados é <code>data_un()</code>. Ou seja, sempre que o input (seletor) for alterado, <code>data_un()</code> é atualizado e, consequentemente, <code>output$treemap</code> também é atualizado.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">server &lt;-<span class="st"> </span>function(input, output) {
+
+   data_un &lt;-<span class="st"> </span><span class="kw">reactive</span>({
+     existe_dados &lt;-<span class="st"> </span><span class="ot">FALSE</span>
+     ano &lt;-<span class="st"> </span><span class="dv">2016</span>
+     dados &lt;-<span class="st"> </span><span class="kw">data.frame</span>()
+     while(!existe_dados){
+       dados &lt;-<span class="st"> </span><span class="kw">get.Comtrade</span>(<span class="dt">r =</span> input$country, <span class="dt">p =</span> <span class="st">&quot;all&quot;</span>, <span class="dt">ps =</span> ano, <span class="dt">fmt =</span> <span class="st">&quot;csv&quot;</span>)$data
+       existe_dados &lt;-<span class="st"> </span><span class="kw">nrow</span>(dados) &gt;<span class="st"> </span><span class="dv">1</span>
+       <span class="kw">Sys.sleep</span>(<span class="fl">1.1</span>)
+       ano &lt;-<span class="st"> </span>ano -<span class="st"> </span><span class="dv">1</span>
+     }
+
+    dados &lt;-<span class="st"> </span>dados %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(Partner !=<span class="st"> &quot;World&quot;</span>, Trade.Flow %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Import&quot;</span>, <span class="st">&quot;Export&quot;</span>)) %&gt;%
+<span class="st">      </span><span class="kw">select</span>(Year, Trade.Flow, Reporter, Reporter.ISO, Partner, Partner.ISO,
+             Trade.Value..US..)
+
+    dados_exp &lt;-<span class="st"> </span>dados %&gt;%<span class="st"> </span><span class="kw">filter</span>(Trade.Flow ==<span class="st"> &quot;Export&quot;</span>) %&gt;%
+<span class="st">      </span><span class="kw">select</span>(-Trade.Flow) %&gt;%
+<span class="st">      </span><span class="kw">rename</span>(<span class="dt">Trade_Value_Exp =</span> Trade.Value..US..)
+
+    dados_imp &lt;-<span class="st"> </span>dados %&gt;%<span class="st"> </span><span class="kw">filter</span>(Trade.Flow ==<span class="st"> &quot;Import&quot;</span>) %&gt;%
+<span class="st">      </span><span class="kw">select</span>(-Trade.Flow) %&gt;%
+<span class="st">      </span><span class="kw">rename</span>(<span class="dt">Trade_Value_Imp =</span> Trade.Value..US..)
+
+    dados &lt;-<span class="st"> </span><span class="kw">full_join</span>(dados_exp, dados_imp) %&gt;%
+<span class="st">      </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">Trade_Value_Exp =</span> <span class="dv">0</span>,
+                      <span class="dt">Trade_Value_Imp =</span> <span class="dv">0</span>))
+
+    dados &lt;-<span class="st"> </span>dados %&gt;%
+<span class="st">      </span><span class="kw">left_join</span>(regions) %&gt;%
+<span class="st">      </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">region =</span> <span class="st">&quot;Not Specified&quot;</span>)) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">region =</span> <span class="kw">ifelse</span>(region ==<span class="st"> &quot;&quot;</span>, <span class="st">&quot;Not Specified&quot;</span>, region))
+   })
+
+
+   output$treemap &lt;-<span class="st"> </span><span class="kw">renderD3plus</span>({
+
+     toggle_button &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">list</span>(<span class="dt">Exports =</span> <span class="st">&quot;Trade_Value_Exp&quot;</span>),
+                           <span class="kw">list</span>(<span class="dt">Imports =</span> <span class="st">&quot;Trade_Value_Imp&quot;</span>))
+
+     ano &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">data_un</span>()$Year)
+
+     title &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;Trade by Partners - &quot;</span>,
+                     reporters$text[reporters$id ==<span class="st"> </span>input$country],
+                     <span class="st">&quot; - &quot;</span>,
+                     ano)
+
+     <span class="kw">d3plus</span>(<span class="kw">data_un</span>(), <span class="dt">type =</span> <span class="st">&quot;tree_map&quot;</span>,
+            <span class="dt">id =</span> <span class="kw">c</span>(<span class="st">&quot;region&quot;</span>, <span class="st">&quot;Partner&quot;</span>),
+            <span class="dt">currency_var =</span> <span class="kw">c</span>(<span class="st">&quot;Trade_Value_Exp&quot;</span>,
+                             <span class="st">&quot;Trade_Value_Imp&quot;</span>),
+            <span class="dt">locale =</span> <span class="st">&quot;pt_BR&quot;</span>) %&gt;%
+<span class="st">       </span><span class="kw">d3plusSize</span>(<span class="st">&quot;Trade_Value_Exp&quot;</span>) %&gt;%
+<span class="st">       </span><span class="kw">d3plusUi</span>(<span class="kw">list</span>(<span class="dt">method =</span> <span class="st">&quot;size&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;toggle&quot;</span>,
+                     <span class="dt">label =</span> <span class="st">&quot;Trade Flow: &quot;</span>,
+                     <span class="dt">value =</span> toggle_button)) %&gt;%
+<span class="st">       </span><span class="kw">d3plusColor</span>(<span class="st">&quot;region&quot;</span>) %&gt;%
+<span class="st">       </span><span class="kw">d3plusDepth</span>(<span class="dv">1</span>) %&gt;%
+<span class="st">       </span><span class="kw">d3plusTitle</span>(<span class="dt">value =</span> title, <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">22</span>, <span class="dt">weight =</span> <span class="dv">900</span>),
+                   <span class="dt">total =</span> <span class="kw">list</span>(<span class="dt">value =</span> <span class="kw">list</span>(<span class="dt">prefix =</span> <span class="st">&quot;Total: &quot;</span>),
+                                <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">16</span>, <span class="dt">weight =</span> <span class="dv">900</span>))) %&gt;%
+<span class="st">       </span><span class="kw">d3plusFooter</span>(<span class="dt">value =</span> <span class="st">&quot;Source: UN/Comtrade.&quot;</span>,
+                    <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">align =</span> <span class="st">&quot;left&quot;</span>))
+   })
+}</code></pre></div>
+</div>
+<div id="ui" class="section level3">
+<h3><span class="header-section-number">8.1.3</span> UI</h3>
+<p>Para apresentação da visualização na aplicação, utiliza-se a função <code>d3plusOutput</code> com o nome do elemento que definimos no server. Ou seja, <code>treemap</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
+
+  <span class="kw">fluidRow</span>(
+    <span class="kw">column</span>(<span class="dv">2</span>),
+    <span class="kw">column</span>(<span class="dv">8</span>,
+           <span class="kw">h1</span>(<span class="st">&quot;Exports and Imports by Country&quot;</span>, <span class="dt">align =</span> <span class="st">&quot;center&quot;</span>)
+    )
+  ),
+  <span class="kw">fluidRow</span>(
+    <span class="kw">column</span>(<span class="dv">2</span>),
+    <span class="kw">column</span>(<span class="dv">8</span>,
+           <span class="kw">selectInput</span>(<span class="st">&quot;country&quot;</span>,
+                       <span class="dt">label =</span> <span class="st">&quot;Select a reporter:&quot;</span>,
+                       <span class="dt">choices =</span> paises,
+                       <span class="dt">selected =</span> <span class="st">&quot;76&quot;</span>,
+                       <span class="dt">multiple =</span> <span class="ot">FALSE</span>)
+    )
+  ),
+  <span class="kw">fluidRow</span>(
+    <span class="kw">column</span>(<span class="dv">2</span>),
+    <span class="kw">column</span>(<span class="dv">8</span>,
+           <span class="kw">d3plusOutput</span>(<span class="st">&#39;treemap&#39;</span>, <span class="dt">height =</span> <span class="dv">600</span>)
+           )
+    )
+)</code></pre></div>
+</div>
+<div id="codigo-completo" class="section level3">
+<h3><span class="header-section-number">8.1.4</span> Código completo</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<span class="kw">library</span>(D3plusR)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(tidyr)
+
+regions &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv&quot;</span>,
+                    <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+regions &lt;-<span class="st"> </span>regions %&gt;%
+<span class="st">  </span><span class="kw">select</span>(alpha<span class="fl">.3</span>, region) %&gt;%
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Partner.ISO =</span> alpha<span class="fl">.3</span>)
+
+string &lt;-<span class="st"> &quot;http://comtrade.un.org/data/cache/partnerAreas.json&quot;</span>
+reporters &lt;-<span class="st"> </span>jsonlite::<span class="kw">fromJSON</span>(string)$results
+paises &lt;-<span class="st"> </span>reporters$id
+<span class="kw">names</span>(paises) &lt;-<span class="st"> </span>reporters$text
+
+get.Comtrade &lt;-<span class="st"> </span>function(<span class="dt">url=</span><span class="st">&quot;https://comtrade.un.org/api/get?&quot;</span>
+                         ,<span class="dt">maxrec=</span><span class="dv">50000</span>
+                         ,<span class="dt">type=</span><span class="st">&quot;C&quot;</span>
+                         ,<span class="dt">freq=</span><span class="st">&quot;A&quot;</span>
+                         ,<span class="dt">px=</span><span class="st">&quot;HS&quot;</span>
+                         ,<span class="dt">ps=</span><span class="st">&quot;now&quot;</span>
+                         ,r
+                         ,p
+                         ,<span class="dt">rg=</span><span class="st">&quot;all&quot;</span>
+                         ,<span class="dt">cc=</span><span class="st">&quot;TOTAL&quot;</span>
+                         ,<span class="dt">fmt=</span><span class="st">&quot;json&quot;</span>
+)
+{
+  string&lt;-<span class="st"> </span><span class="kw">paste</span>(url
+                 ,<span class="st">&quot;max=&quot;</span>,maxrec,<span class="st">&quot;&amp;&quot;</span> <span class="co">#maximum no. of records returned</span>
+                 ,<span class="st">&quot;type=&quot;</span>,type,<span class="st">&quot;&amp;&quot;</span> <span class="co">#type of trade (c=commodities)</span>
+                 ,<span class="st">&quot;freq=&quot;</span>,freq,<span class="st">&quot;&amp;&quot;</span> <span class="co">#frequency</span>
+                 ,<span class="st">&quot;px=&quot;</span>,px,<span class="st">&quot;&amp;&quot;</span> <span class="co">#classification</span>
+                 ,<span class="st">&quot;ps=&quot;</span>,ps,<span class="st">&quot;&amp;&quot;</span> <span class="co">#time period</span>
+                 ,<span class="st">&quot;r=&quot;</span>,r,<span class="st">&quot;&amp;&quot;</span> <span class="co">#reporting area</span>
+                 ,<span class="st">&quot;p=&quot;</span>,p,<span class="st">&quot;&amp;&quot;</span> <span class="co">#partner country</span>
+                 ,<span class="st">&quot;rg=&quot;</span>,rg,<span class="st">&quot;&amp;&quot;</span> <span class="co">#trade flow</span>
+                 ,<span class="st">&quot;cc=&quot;</span>,cc,<span class="st">&quot;&amp;&quot;</span> <span class="co">#classification code</span>
+                 ,<span class="st">&quot;fmt=&quot;</span>,fmt        <span class="co">#Format</span>
+                 ,<span class="dt">sep =</span> <span class="st">&quot;&quot;</span>
+  )
+
+  if(fmt ==<span class="st"> &quot;csv&quot;</span>) {
+    raw.data&lt;-<span class="st"> </span><span class="kw">read.csv</span>(string,<span class="dt">header=</span><span class="ot">TRUE</span>)
+    <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">validation=</span><span class="ot">NULL</span>, <span class="dt">data=</span>raw.data))
+  } else {
+    if(fmt ==<span class="st"> &quot;json&quot;</span> ) {
+      raw.data&lt;-<span class="st"> </span>rjson::<span class="kw">fromJSON</span>(<span class="dt">file=</span>string)
+      data&lt;-<span class="st"> </span>raw.data$dataset
+      validation&lt;-<span class="st"> </span><span class="kw">unlist</span>(raw.data$validation, <span class="dt">recursive=</span><span class="ot">TRUE</span>)
+      ndata&lt;-<span class="st"> </span><span class="ot">NULL</span>
+      if(<span class="kw">length</span>(data)&gt;<span class="st"> </span><span class="dv">0</span>) {
+        var.names&lt;-<span class="st"> </span><span class="kw">names</span>(data[[<span class="dv">1</span>]])
+        data&lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>( <span class="kw">sapply</span>(data,rbind)))
+        ndata&lt;-<span class="st"> </span><span class="ot">NULL</span>
+        for(i in <span class="dv">1</span>:<span class="kw">ncol</span>(data)){
+          data[<span class="kw">sapply</span>(data[,i],is.null),i]&lt;-<span class="st"> </span><span class="ot">NA</span>
+          ndata&lt;-<span class="st"> </span><span class="kw">cbind</span>(ndata, <span class="kw">unlist</span>(data[,i]))
+        }
+        ndata&lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(ndata)
+        <span class="kw">colnames</span>(ndata)&lt;-<span class="st"> </span>var.names
+      }
+      <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">validation=</span>validation,<span class="dt">data =</span>ndata))
+    }
+  }
+}
+
+<span class="co"># Define UI for application that draws a histogram</span>
+ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
+
+  <span class="kw">fluidRow</span>(
+    <span class="kw">column</span>(<span class="dv">2</span>),
+    <span class="kw">column</span>(<span class="dv">8</span>,
+           <span class="kw">h1</span>(<span class="st">&quot;Exports and Imports by Country&quot;</span>, <span class="dt">align =</span> <span class="st">&quot;center&quot;</span>)
+    )
+  ),
+  <span class="kw">fluidRow</span>(
+    <span class="kw">column</span>(<span class="dv">2</span>),
+    <span class="kw">column</span>(<span class="dv">8</span>,
+           <span class="kw">selectInput</span>(<span class="st">&quot;country&quot;</span>,
+                       <span class="dt">label =</span> <span class="st">&quot;Select a reporter:&quot;</span>,
+                       <span class="dt">choices =</span> paises,
+                       <span class="dt">selected =</span> <span class="st">&quot;76&quot;</span>,
+                       <span class="dt">multiple =</span> <span class="ot">FALSE</span>)
+    )
+  ),
+  <span class="kw">fluidRow</span>(
+    <span class="kw">column</span>(<span class="dv">2</span>),
+    <span class="kw">column</span>(<span class="dv">8</span>,
+           <span class="kw">d3plusOutput</span>(<span class="st">&#39;treemap&#39;</span>, <span class="dt">height =</span> <span class="dv">600</span>)
+           )
+    )
+)
+
+<span class="co"># Define server logic required to draw a histogram</span>
+server &lt;-<span class="st"> </span>function(input, output) {
+
+   data_un &lt;-<span class="st"> </span><span class="kw">reactive</span>({
+     existe_dados &lt;-<span class="st"> </span><span class="ot">FALSE</span>
+     ano &lt;-<span class="st"> </span><span class="dv">2016</span>
+     dados &lt;-<span class="st"> </span><span class="kw">data.frame</span>()
+     while(!existe_dados){
+       dados &lt;-<span class="st"> </span><span class="kw">get.Comtrade</span>(<span class="dt">r =</span> input$country, <span class="dt">p =</span> <span class="st">&quot;all&quot;</span>, <span class="dt">ps =</span> ano, <span class="dt">fmt =</span> <span class="st">&quot;csv&quot;</span>)$data
+       existe_dados &lt;-<span class="st"> </span><span class="kw">nrow</span>(dados) &gt;<span class="st"> </span><span class="dv">1</span>
+       <span class="kw">Sys.sleep</span>(<span class="fl">1.1</span>)
+       ano &lt;-<span class="st"> </span>ano -<span class="st"> </span><span class="dv">1</span>
+     }
+
+    dados &lt;-<span class="st"> </span>dados %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(Partner !=<span class="st"> &quot;World&quot;</span>, Trade.Flow %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Import&quot;</span>, <span class="st">&quot;Export&quot;</span>)) %&gt;%
+<span class="st">      </span><span class="kw">select</span>(Year, Trade.Flow, Reporter, Reporter.ISO, Partner, Partner.ISO,
+             Trade.Value..US..)
+
+    dados_exp &lt;-<span class="st"> </span>dados %&gt;%<span class="st"> </span><span class="kw">filter</span>(Trade.Flow ==<span class="st"> &quot;Export&quot;</span>) %&gt;%
+<span class="st">      </span><span class="kw">select</span>(-Trade.Flow) %&gt;%
+<span class="st">      </span><span class="kw">rename</span>(<span class="dt">Trade_Value_Exp =</span> Trade.Value..US..)
+
+    dados_imp &lt;-<span class="st"> </span>dados %&gt;%<span class="st"> </span><span class="kw">filter</span>(Trade.Flow ==<span class="st"> &quot;Import&quot;</span>) %&gt;%
+<span class="st">      </span><span class="kw">select</span>(-Trade.Flow) %&gt;%
+<span class="st">      </span><span class="kw">rename</span>(<span class="dt">Trade_Value_Imp =</span> Trade.Value..US..)
+
+    dados &lt;-<span class="st"> </span><span class="kw">full_join</span>(dados_exp, dados_imp) %&gt;%
+<span class="st">      </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">Trade_Value_Exp =</span> <span class="dv">0</span>,
+                      <span class="dt">Trade_Value_Imp =</span> <span class="dv">0</span>))
+
+    dados &lt;-<span class="st"> </span>dados %&gt;%
+<span class="st">      </span><span class="kw">left_join</span>(regions) %&gt;%
+<span class="st">      </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">region =</span> <span class="st">&quot;Not Specified&quot;</span>)) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">region =</span> <span class="kw">ifelse</span>(region ==<span class="st"> &quot;&quot;</span>, <span class="st">&quot;Not Specified&quot;</span>, region))
+   })
+
+
+   output$treemap &lt;-<span class="st"> </span><span class="kw">renderD3plus</span>({
+
+     toggle_button &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">list</span>(<span class="dt">Exports =</span> <span class="st">&quot;Trade_Value_Exp&quot;</span>),
+                           <span class="kw">list</span>(<span class="dt">Imports =</span> <span class="st">&quot;Trade_Value_Imp&quot;</span>))
+
+     ano &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">data_un</span>()$Year)
+
+     title &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;Trade by Partners - &quot;</span>,
+                     reporters$text[reporters$id ==<span class="st"> </span>input$country],
+                     <span class="st">&quot; - &quot;</span>,
+                     ano)
+
+     <span class="kw">d3plus</span>(<span class="kw">data_un</span>(), <span class="dt">type =</span> <span class="st">&quot;tree_map&quot;</span>,
+            <span class="dt">id =</span> <span class="kw">c</span>(<span class="st">&quot;region&quot;</span>, <span class="st">&quot;Partner&quot;</span>),
+            <span class="dt">currency_var =</span> <span class="kw">c</span>(<span class="st">&quot;Trade_Value_Exp&quot;</span>,
+                             <span class="st">&quot;Trade_Value_Imp&quot;</span>),
+            <span class="dt">locale =</span> <span class="st">&quot;pt_BR&quot;</span>) %&gt;%
+<span class="st">       </span><span class="kw">d3plusSize</span>(<span class="st">&quot;Trade_Value_Exp&quot;</span>) %&gt;%
+<span class="st">       </span><span class="kw">d3plusUi</span>(<span class="kw">list</span>(<span class="dt">method =</span> <span class="st">&quot;size&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;toggle&quot;</span>,
+                     <span class="dt">label =</span> <span class="st">&quot;Trade Flow: &quot;</span>,
+                     <span class="dt">value =</span> toggle_button)) %&gt;%
+<span class="st">       </span><span class="kw">d3plusColor</span>(<span class="st">&quot;region&quot;</span>) %&gt;%
+<span class="st">       </span><span class="kw">d3plusDepth</span>(<span class="dv">1</span>) %&gt;%
+<span class="st">       </span><span class="kw">d3plusTitle</span>(<span class="dt">value =</span> title, <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">22</span>, <span class="dt">weight =</span> <span class="dv">900</span>),
+                   <span class="dt">total =</span> <span class="kw">list</span>(<span class="dt">value =</span> <span class="kw">list</span>(<span class="dt">prefix =</span> <span class="st">&quot;Total: &quot;</span>),
+                                <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">16</span>, <span class="dt">weight =</span> <span class="dv">900</span>))) %&gt;%
+<span class="st">       </span><span class="kw">d3plusFooter</span>(<span class="dt">value =</span> <span class="st">&quot;Source: UN/Comtrade.&quot;</span>,
+                    <span class="dt">font =</span> <span class="kw">list</span>(<span class="dt">align =</span> <span class="st">&quot;left&quot;</span>))
+   })
+}
+
+<span class="co"># Run the application</span>
+<span class="kw">shinyApp</span>(<span class="dt">ui =</span> ui, <span class="dt">server =</span> server)</code></pre></div>
+
+</div>
+</div>
+</div>
+<p style="text-align: center;">
+<a href="atributos.html"><button class="btn btn-default">Previous</button></a>
+<a href="adicionando-codigo-javascript.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

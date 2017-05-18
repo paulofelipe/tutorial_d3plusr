@@ -11,7 +11,7 @@
   border-radius: 5px 5px 0 0;
   background: #141414;
   background: #FFFFFF;
-  border-bottom: 2px solid #0fa1e0;
+  border-bottom: 2px solid #dd4814;
   width: auto;
 }
 #TOC:after,
@@ -49,7 +49,7 @@
   bottom: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid #0fa1e0;
+  border-bottom: 10px solid #dd4814;
   margin-left: -10px;
 }
 #TOC > ul > li:first-child > a {
@@ -75,7 +75,8 @@
 }
 #TOC .has-sub ul {
   display: none;
-  border: 1px solid;
+  border: 0px solid;
+  box-shadow: 1px 10px 10px #888888;
   position: absolute;
   width: 200px;
   top: 100%;
@@ -90,7 +91,7 @@
   color: #000000;
 }
 #TOC .has-sub ul li:hover a {
-  background: #0c7fb0;
+  background: #dd4814;
 }
 #TOC ul ul li:hover > a {
   color: #ffffff;
@@ -100,7 +101,7 @@
 }
 #TOC .has-sub .has-sub ul {
   display: none;
-  border: 1px solid;
+  border: 0px solid;
   position: absolute;
   left: 100%;
   top: 0;
@@ -109,7 +110,7 @@
   background: #ffffff;
 }
 #TOC .has-sub .has-sub ul li a:hover {
-  background: #0a6d98;
+  background: #d34310;
 }
 #TOC ul ul li.last > a,
 #TOC ul ul li:last-child > a,

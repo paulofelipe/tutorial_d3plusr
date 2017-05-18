@@ -1,0 +1,68 @@
+# Adicionando código JavaScript
+
+Muitas vezes pode ser que o pacote criado para o R não forneça todas as opções disponíveis na biblioteca original. Para não limitar os usuários, o pacote `htmlwidgets` fornece uma função, `onRender()`, em que o usuário pode adicionar código em JavaScript para complementar a criação da visualização. Para isso, o usuário deve conhecer a biblioteca original.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(D3plusR)
+library(htmlwidgets)
+
+dados <- read.csv('dados/exp_imp_brasil.csv')
+
+d3plus(data = dados %>% filter(CO_ANO >= 2005),
+       type = "bar",
+       id = "TIPO",
+       width = "100%",
+       height = 500, 
+       locale = "pt_BR",
+       noformat_number_var = "CO_ANO",
+       elementId = "chart1") %>% 
+  d3plusX(value = "CO_ANO", label = "Ano") %>% 
+  d3plusY(value = "VL_FOB", label = "Valor FOB") %>% 
+  onRender('function(el, x, data){
+           var viz = this.viz;
+           viz.mouse({"click": function(d){
+              viz.id({"solo": d.TIPO}).draw();
+            }
+          })
+  }')
+
+```
+
+
+## Código JavaScript após a renderização
+
+A função `onRender()` executa o código JavaScript no modelo da renderização de cada widget. Ou seja, nao existe possibilidade de encontrar um widget que ainda não foi criado e realizar interações. Para que um widget se comunique com outro, podemos usar a função `onStaticRenderComplete()`.
+
+Primeiro vamos criar uma segunda visualização:
+
+```{r}
+d3plus(data = dados %>% filter(CO_ANO >= 2005),
+       type = "bar",
+       id = "TIPO",
+       width = "100%",
+       height = 500, 
+       locale = "pt_BR",
+       noformat_number_var = "CO_ANO",
+       elementId = "chart2") %>% 
+  d3plusX(value = "CO_ANO", label = "Ano") %>% 
+  d3plusY(value = "VL_FOB", label = "Valor FOB")
+```
+
+Agora, vamos usar a função `onStaticRenderComplete()`. Dentro dela passaremos o código JavaScript que será responsável pela interação entre as visualizações. Precisamos criar dois objetos com as duas visualizações criadas anteriormente. Para isso, usaremos o `HTMLWidgets.find()` que é disponibilizada pela _framework_ do `htmlwidgets`. Basicamente, buscamos a visualização pelo nome da `Id` que demos quando elas foram criadas. No caso, `chart1` e `chart2`.
+
+```{r}
+onStaticRenderComplete('
+                       var chart1 = HTMLWidgets.find("#chart1").viz;
+                       var chart2 = HTMLWidgets.find("#chart2").viz;
+                       
+                       chart1.mouse({"click": function(d){
+                          chart2.id({"solo": d.TIPO}).draw();
+                          chart1.id({"solo": d.TIPO}).draw();
+                       }})
+                       chart2.mouse({"click": function(d){
+                          chart2.id({"solo": d.TIPO}).draw();
+                          chart1.id({"solo": d.TIPO}).draw();
+                       }})')
+```
+

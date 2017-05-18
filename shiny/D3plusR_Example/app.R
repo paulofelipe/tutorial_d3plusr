@@ -12,6 +12,12 @@ library(D3plusR)
 library(dplyr)
 library(tidyr)
 
+regions <- read.csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv",
+                    stringsAsFactors = FALSE)
+regions <- regions %>%
+  select(alpha.3, region) %>%
+  rename(Partner.ISO = alpha.3)
+
 string <- "http://comtrade.un.org/data/cache/partnerAreas.json"
 reporters <- jsonlite::fromJSON(string)$results
 paises <- reporters$id
@@ -79,7 +85,7 @@ ui <- fluidPage(
     )
   ),
   fluidRow(
-    column(3),
+    column(2),
     column(8,
            selectInput("country",
                        label = "Select a reporter:",
@@ -91,7 +97,7 @@ ui <- fluidPage(
   fluidRow(
     column(2),
     column(8,
-           d3plusOutput('treemap')
+           d3plusOutput('treemap', height = 600)
            )
     )
 )
@@ -102,10 +108,11 @@ server <- function(input, output) {
    data_un <- reactive({
      existe_dados <- FALSE
      ano <- 2016
+     dados <- data.frame()
      while(!existe_dados){
        dados <- get.Comtrade(r = input$country, p = "all", ps = ano, fmt = "csv")$data
        existe_dados <- nrow(dados) > 1
-       Sys.sleep(0.7)
+       Sys.sleep(1.1)
        ano <- ano - 1
      }
 
@@ -126,19 +133,41 @@ server <- function(input, output) {
       replace_na(list(Trade_Value_Exp = 0,
                       Trade_Value_Imp = 0))
 
+    dados <- dados %>%
+      left_join(regions) %>%
+      replace_na(list(region = "Not Specified")) %>%
+      mutate(region = ifelse(region == "", "Not Specified", region))
    })
+
 
    output$treemap <- renderD3plus({
 
      toggle_button <- list(list(Exports = "Trade_Value_Exp"),
                            list(Imports = "Trade_Value_Imp"))
 
-     d3plus(data_un(), type = "tree_map", id = "Partner",
-            height = 500) %>%
+     ano <- max(data_un()$Year)
+
+     title <- paste0("Trade by Partners - ",
+                     reporters$text[reporters$id == input$country],
+                     " - ",
+                     ano)
+
+     d3plus(data_un(), type = "tree_map",
+            id = c("region", "Partner"),
+            currency_var = c("Trade_Value_Exp",
+                             "Trade_Value_Imp"),
+            locale = "pt_BR") %>%
        d3plusSize("Trade_Value_Exp") %>%
        d3plusUi(list(method = "size", type = "toggle",
                      label = "Trade Flow: ",
-                     value = toggle_button))
+                     value = toggle_button)) %>%
+       d3plusColor("region") %>%
+       d3plusDepth(1) %>%
+       d3plusTitle(value = title, font = list(size = 22, weight = 900),
+                   total = list(value = list(prefix = "Total: "),
+                                font = list(size = 16, weight = 900))) %>%
+       d3plusFooter(value = "Source: UN/Comtrade.",
+                    font = list(align = "left"))
    })
 }
 
