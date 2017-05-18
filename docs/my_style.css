@@ -70,13 +70,14 @@
 #TOC .has-sub {
   z-index: 1;
 }
+
 #TOC .has-sub:hover > ul {
-  display: block;
+  display: none; /* block foi alterado*/ 
 }
 #TOC .has-sub ul {
   display: none;
   border: 0px solid;
-  box-shadow: 1px 10px 10px #888888;
+  box-shadow: 1px 10px 10px #888888;  
   position: absolute;
   width: 200px;
   top: 100%;
@@ -89,6 +90,7 @@
   line-height: 120%;
   padding: 10px;
   color: #000000;
+  z-index: 10000;
 }
 #TOC .has-sub ul li:hover a {
   background: #dd4814;
@@ -102,9 +104,8 @@
 #TOC .has-sub .has-sub ul {
   display: none;
   border: 0px solid;
-  position: absolute;
   left: 100%;
-  top: 0;
+  top: 0;  
 }
 #TOC .has-sub .has-sub ul li a {
   background: #ffffff;
