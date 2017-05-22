@@ -1,0 +1,177 @@
+---
+title: "Tutorial - D3plusR - Parte 1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Pacote
+
+```{r, message=FALSE}
+library(D3plusR)
+library(dplyr)
+```
+
+## Primeiro Exemplo
+
+Neste exemplo, será usado um conjunto de dados _fake_  para demonstrar o funcionamento básico do pacote.
+```{r}
+data <- data.frame(year = c(1991, 1991, 1991, 1991, 1992, 1992, 1992, 1992, 1993,
+                            1993, 1993, 1993, 1994, 1994, 1994, 1994),
+                   name = c("alpha", "beta", "gamma", "delta", "alpha", "beta",
+                            "gamma", "delta", "alpha", "beta", "gamma", "delta",
+                            "alpha", "beta", "gamma", "delta"),
+                   value = c(15, 10, 5, 50, 20, 10, 10, 43, 30, 40, 20, 17,
+                            60, 60, 25, 32))
+head(data)
+```
+
+```{r}
+d3plus(data = data, type = "bar", id = "name") %>% 
+  d3plusX(value = "year") %>% 
+  d3plusY(value = "value") %>% 
+  d3plusTitle(value = "Minha primeira visualização") %>% 
+  d3plusTime(value = "year") %>% 
+  d3plusTooltip(value = c("name", "year", "value"))
+```
+
+> Para que a ordem das barras seja mantinda, a variável do eixo x deve ser do tipo `character` ou usar a opção `persist` na função `d3plusX()`.
+
+```{r}
+d3plus(data = data, type = "bar", id = "name") %>% 
+  d3plusX(value = "year", mute = 1994, persist = list(position = TRUE)) %>% 
+  d3plusY(value = "value") %>% 
+  d3plusTitle(value = "Minha primeira visualização") %>% 
+  d3plusTime(value = "year") %>% 
+  d3plusTooltip(value = c("name", "year", "value"))
+```
+
+
+## Linhas
+
+Nos exemplos abaixos, utilizaremos os dados de exportações brasileiras que estão no arquivo `exp_imp_brasil.csv`.
+
+```{r}
+exp_imp_brasil <- read.csv('dados/exp_imp_brasil.csv')
+head(exp_imp_brasil)
+```
+
+As variáveis são:
+
+* `CO_ANO`: Ano
+* `TIPO`: tipo do fluxo, exportações (`EXP`) ou importações (`IMP`)
+* `VL_FOB`: Valor FOB em US$
+
+```{r}
+d3plus(data = exp_imp_brasil, type = "line",
+       id = "TIPO") %>% 
+  d3plusX("CO_ANO") %>% 
+  d3plusY("VL_FOB")
+```
+
+Para os números dos anos tempos duas opções:
+
+1. Converter para `character`;
+2. Usar opção `noformat_number_var`, indicando o nome das colunas numéricas em que os números não deve ser formatados.
+
+Mais um detalhe: a legenda só aparece se a função `d3plusColor()` for utilizada.
+
+```{r}
+d3plus(data = exp_imp_brasil, type = "line",
+       id = "TIPO",
+       noformat_number_var = "CO_ANO") %>% 
+  d3plusX("CO_ANO") %>% 
+  d3plusY("VL_FOB") %>% 
+  d3plusColor("TIPO")
+```
+
+No exemplo abaixo, os grids são removidos e a variável de tempo
+
+```{r}
+d3plus(data = exp_imp_brasil, type = "line",
+       id = "TIPO",
+       noformat_number_var = "CO_ANO") %>% 
+  d3plusX("CO_ANO", grid = FALSE) %>% 
+  d3plusY("VL_FOB", grid = FALSE) %>% 
+  d3plusColor("TIPO") %>% 
+  d3plusTime("CO_ANO")
+```
+
+
+## Alterando a fonte global
+
+```{r}
+d3plus(data = exp_imp_brasil, type = "line",
+       id = "TIPO",
+       noformat_number_var = "CO_ANO") %>% 
+  d3plusX("CO_ANO") %>% 
+  d3plusY("VL_FOB") %>% 
+  d3plusColor("TIPO") %>% 
+  d3plusFont(color = "#000000", family = "sans-serif",
+             weight = 600, size = 16)
+```
+
+## Definindo atributos
+
+Os atributos e cores serão definidos no data.frame abaixo:
+
+```{r}
+atributos <- data.frame(TIPO = c("EXP", "IMP"),
+                        color = c("#2857AD", "#992020"),
+                        icon = c('icons/exp.png', 'icons/imp.png'))
+
+d3plus(data = exp_imp_brasil, type = "line",
+       id = "TIPO",
+       noformat_number_var = "CO_ANO") %>% 
+  d3plusX("CO_ANO") %>% 
+  d3plusY("VL_FOB") %>% 
+  d3plusAttrs(atributos) %>% 
+  d3plusColor('color') %>% 
+  d3plusIcon(value = 'icon', style = "knockout")
+```
+
+
+## Definindo formatação de números
+
+Na função `d3plus()` são fornecidas algumas opções para formatação de números. Por padrão, o `D3plus` usa uma função interna: `d3plus.number.format()`. Nessa função, o número 1000000 é formatado para 1M. 
+
+As variáveis que são monetárias e que se deseja atribuir esse tipo de formatação especial devem ser especificadas no argumento `currency_var`. Variáveis em que se deseja atribuir o símbolo `%` devem ser espeficadas no argumento `percent_var`. O argumento `currency` define o símbolo que é inserido na frente dos números das variáveis espeficicadas em `currency_var`. O argumento `number_text`, define o texto que será apresentado após os números para mil, milhão, milhões, bilhão e bilhões.
+
+```{r}
+d3plus(data = exp_imp_brasil, type = "line",
+       id = "TIPO",
+       noformat_number_var = "CO_ANO",
+       currency_var = "VL_FOB",
+       number_text = c("Mil", "Milhão", "Milhões", "Bilhão", "Bilhões"),
+       locale = "pt_BR") %>% 
+  d3plusX("CO_ANO") %>% 
+  d3plusY("VL_FOB") %>% 
+  d3plusAttrs(atributos) %>% 
+  d3plusColor('color') %>% 
+  d3plusIcon(value = 'icon', style = "knockout")
+```
+
+## Dicionário
+
+```{r}
+dicionario <- list(VL_FOB = "Valor FOB",
+                   IMP = "Importações",
+                   EXP = "Exportações",
+                   CO_ANO = "CO_ANO")
+
+d3plus(data = exp_imp_brasil, type = "line",
+       id = "TIPO",
+       noformat_number_var = "CO_ANO",
+       currency_var = "VL_FOB",
+       number_text = c("Mil", "Milhão", "Milhões", "Bilhão", "Bilhões"),
+       locale = "pt_BR",
+       dictionary = dicionario) %>% 
+  d3plusX("CO_ANO") %>% 
+  d3plusY("VL_FOB") %>% 
+  d3plusAttrs(atributos) %>% 
+  d3plusColor('color') %>% 
+  d3plusIcon(value = 'icon', style = "knockout")
+```
+
