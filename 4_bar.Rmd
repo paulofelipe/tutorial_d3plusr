@@ -139,7 +139,7 @@ d3plus(data = dados %>% filter(CO_ANO >= 2005),
 O usuário pode especificar mais de um nível no `id`. Assim, a visualização criada apresentará os dados no primeiro nível e abrirá o segundo nível a partir de um clique. O nível inicial pode ser escolhido a partir da função `d3plusDepth()` (sendo o valor `0` para o primerio nível).
 
 ```{r}
-bra_chn_fat <- read.csv2('dados/chn_anual_fat.csv')
+bra_chn_fat <- read.csv2('dados/chn_anual_fat.csv', encoding = "latin1")
 bra_chn_fat$CO_ANO <- as.character(bra_chn_fat$CO_ANO)
 head(bra_chn_fat)
 
@@ -150,7 +150,16 @@ d3plus(bra_chn_fat, type = "bar", id = c("TIPO", "NO_FAT_AGREG"),
           persist = list(position = TRUE)) %>% 
   d3plusY(value = "VL_FOB", grid = TRUE, stacked = c(TRUE, FALSE)) %>% 
   d3plusDepth(0) %>% 
-  d3plusColor(value = "TIPO", scale = "category10")
+  htmlwidgets::onRender('function(el, x){
+    viz = this.viz
+    viz.depth({"value": 0}, function(d){
+      if(d == 0){
+        viz.color("TIPO")
+      } else {
+        viz.color("NO_FAT_AGREG")
+      }
+    })
+  }')
 ```
 
 

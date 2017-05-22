@@ -5,7 +5,8 @@ Os dados usados abaixo são das exportações brasileiras para China a partir de
 ```{r}
 library(D3plusR)
 library(dplyr)
-dados_chn <- read.csv2('dados/chn.csv', stringsAsFactors = FALSE)
+dados_chn <- read.csv2('dados/chn.csv', stringsAsFactors = FALSE,
+                       encoding = 'latin1')
 
 dados_chn_exp <- dados_chn %>% 
   filter(TIPO == "EXPORTAÇÕES", PERIODO == "Total")
