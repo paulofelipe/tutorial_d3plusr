@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - D3plusR e Shiny
 
-- Código JS customizado
+- Código JavaScript customizado
 
 # Introdução {data-background=#000000}
 
@@ -185,6 +185,18 @@ d3plusAxes(ticks = FALSE,
 
 - O primeiro nível é definido como 0
 
+## Mapas
+
+- Arquivos com formato `topojson`
+
+- Duas possibilidades:
+  
+    - Importar os dados via `jsonlite`
+    - Informar o endereço do arquivo
+
+- Ver `Parte3.Rmd`
+
+
 # D3plusR e Shiny {data-background=#000000}
 
 ## Funções
@@ -194,3 +206,24 @@ d3plusAxes(ticks = FALSE,
 - `d3plusOutput()`: para a UI
 
 - Ver exemplo: `app.R`
+
+# Código JavaScript Customizado {data-background=#000000}
+
+## Superando limitações do pacote
+
+- Necessidade de estender o código
+
+- Funções disponíveis:
+
+    - `onRender()`: adiciona código JS na construção do widget (é específico para visualização)
+    
+    - `onStaticRenderComplete()`: permite adiconar código JS, mas que precisa ser executado após o carregamento dos widgets
+    
+## Interação entre Widgets
+
+- É necessário que os dois widgets estejam carregados antes de executar o código (`onStaticRenderComplete()`)
+
+- Dificuldade: escrever código em JavaScript
+    
+- Ver `Parte4.Rmd`
+    

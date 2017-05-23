@@ -162,4 +162,3 @@ d3plus(bra_chn_fat, type = "bar", id = c("TIPO", "NO_FAT_AGREG"),
   }')
 ```
 
-

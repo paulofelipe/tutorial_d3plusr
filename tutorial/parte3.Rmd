@@ -1,0 +1,56 @@
+---
+title: "Tutorial - D3plusR - Parte 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Pacotes e dados
+```{r, warning=FALSE, message=FALSE}
+library(D3plusR)
+library(dplyr)
+library(jsonlite)
+
+mapa <- fromJSON('mapas/countries.topojson', simplifyVector = FALSE)
+
+data("bra_exp_2015")
+```
+
+
+
+## Carregando o mapa diretamente
+
+```{r}
+mapa <- fromJSON('mapas/countries.topojson', simplifyVector = FALSE)
+d3plus(data = bra_exp_2015,
+       type = "geo_map",
+       id = "Partner.ISO",
+       width = "100%",
+       height = 500) %>% 
+  d3plusCoords(mapa, projection = "equirectangular") %>% 
+  d3plusColor(value = "Trade.Value..US..") %>% 
+  d3plusTooltip(value = c("Trade.Value..US..", "Partner.ISO")) %>% 
+  d3plusLabels(FALSE) %>% 
+  d3plusText("Partner")
+```
+
+> O importante é informar o `id` nos dados que combina com o `id` do arquivo de mapa.
+
+## Indicando o endereço do mapa
+
+```{r}
+d3plus(data = bra_exp_2015,
+       type = "geo_map",
+       id = "Partner.ISO",
+       width = "100%",
+       height = 500) %>% 
+  d3plusCoords("mapas/countries.topojson", projection = "equirectangular") %>% 
+  d3plusColor(value = "Trade.Value..US..") %>% 
+  d3plusTooltip(value = c("Trade.Value..US..", "Partner.ISO")) %>% 
+  d3plusLabels(FALSE) %>% 
+  d3plusText("Partner")
+```
+
+
