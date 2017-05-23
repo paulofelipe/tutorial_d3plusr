@@ -10,7 +10,7 @@ O `data.frame` `fat_attr` tem uma linha para cada fator agregado, sendo um colun
 library(dplyr)
 library(D3plusR)
 
-dados_chn <- read.csv2('dados/chn.csv', stringsAsFactors = FALSE)
+dados_chn <- read.csv2('dados/chn.csv', stringsAsFactors = FALSE, encoding = 'latin1')
 
 dados_chn_exp <- dados_chn %>% 
   filter(TIPO == "EXPORTAÇÕES", PERIODO == "Total")
@@ -32,8 +32,7 @@ Agora, se o interesse da gente fosse de já apresentar os dados a nível de prod
 
 ```{r}
 # Evita problemas de encoding nos joins do dplyr
-Encoding(fat_attr$NO_FAT_AGREG) <- "unknown"
-dados_chn_exp2 <- left_join(dados_chn_exp, fat_attr, by = "NO_FAT_AGREG")
+dados_chn_exp2 <- merge(dados_chn_exp, fat_attr, by = "NO_FAT_AGREG")
 
 ppe_attr <- dados_chn_exp2 %>% 
   select(NO_FAT_AGREG, NO_PPE_PPI, cor) %>% 
@@ -75,7 +74,7 @@ Para incluir ícones nas visualizações, é suficiente criar uma nova coluna co
 fat_ppe_attr$NO_FAT_AGREG$icon <- c('icons/opesp.png', 'icons/basicos.png',
                                     'icons/manuf.png', 'icons/semimanuf.png')
 
-fat_ppe_attr$NO_PPE_PPI <- left_join(fat_ppe_attr$NO_PPE_PPI,
+fat_ppe_attr$NO_PPE_PPI <- merge(fat_ppe_attr$NO_PPE_PPI,
                                      fat_ppe_attr$NO_FAT_AGREG,
                                      by = "NO_FAT_AGREG")
 

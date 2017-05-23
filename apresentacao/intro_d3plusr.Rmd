@@ -14,7 +14,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Roteiro
+## Roteiro {data-background=#000000}
 
 - Introdução
 
@@ -24,11 +24,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - Exemplos de visualizações com o D3plusR
 
-- Números
+- D3plusR e Shiny
 
-- Atributos
+- Código JS customizado
 
 # Introdução {data-background=#000000}
+
+## Objetivo
+
+- Apresentar os aspectos básicos do pacote D3plusR
 
 ## Sobre o D3plusR
 
@@ -60,7 +64,7 @@ devtools::install_github('paulofelipe/D3plusR')
 
 ## Por que é importante conhecer o D3plus?
 
-- Pacotes criados htmlwidgets são apenas interfaces para a biblioteca JavaScript
+- Pacotes criados htmlwidgets são apenas interfaces para as bibliotecas originais em JavaScript
 
 - Conhecer a potencialidade da biblioteca original
 
@@ -135,19 +139,58 @@ d3plusAxes(ticks = FALSE,
 
 # Exemplos de visualizações com o D3plusR {data-background=#000000}
 
-## Primeira Visualização
+## Alguns Aspectos Básicos
 
 - Utilizar `Parte1.Rmd`
 
-```{r, message=FALSE, warning=FALSE, eval = FALSE}
-library(D3plusR)
-library(dplyr)
+- Títulos
 
-dados <- data.frame(X = c("a", "b"), Y = c(2, 3),
-                    id = c("id1", "id1"))
+- Tooltip
 
-d3plus(data = dados, type = "bar", id = "id") %>% 
-  d3plusX("X") %>% 
-  d3plusY("Y")
-```
+- Time
 
+- Locale
+
+## Atributos
+
+- Os atributos são criados em data.frames com os valores de ids e colunas com os valores para cores e ícones
+
+- Se o gráfico tiver mais de um nível (veremos isso adiante), pode ser passada uma lista de data.frames
+
+- Os ícones somente são apresentados para htmls gerados por RMarkdown ou aplicações Shiny
+
+## Formatação de números
+
+- O D3plus aplica uma formatação automática para as variáveis numéricas
+
+- Na função `d3plus()` são fornecidas algumas opções para alterar o comportamento para variáveis de interesse
+
+    - `currency_var`, `currency` e `number_text`
+    - `percent_var`
+    - `noformat_number_var`
+    
+## Dicionário
+
+- É possível criar uma lista com "tradução" de textos.
+
+- Por exemplo: O nome da variável é `VL_FOB`, mas deseja-se que seja apresentada como `Valor Fob`.
+    
+## Hierarquia nos dados
+
+- Ver Parte2.Rmd
+
+- Exemplo: Visualizações por Continente e País
+
+- Utilizar a função `d3plusDepth()` para escolher o nível inicial da visualização
+
+- O primeiro nível é definido como 0
+
+# D3plusR e Shiny {data-background=#000000}
+
+## Funções
+
+- `renderD3plus()`: para o Server
+
+- `d3plusOutput()`: para a UI
+
+- Ver exemplo: `app.R`

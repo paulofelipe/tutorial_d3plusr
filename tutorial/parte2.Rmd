@@ -1,0 +1,51 @@
+---
+title: "Tutorial - D3plusR - Parte 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Dados dos Exemplos
+
+```{r, message=FALSE, warning=FALSE}
+library(D3plusR)
+library(dplyr)
+
+dados <- read.csv2('dados/chn.csv', encoding = 'latin1')
+```
+
+**Descrição das variáveis**:
+
+- TIPO: tipo de operação (EXPORTAÇÕES OU IMPORTAÇÕES);
+- PERIODO: `Jan-Abr` ou `Total` para o ano completo;
+- CO_ANO: ano da operaçção
+- NO_PAIS: nome do país (China)
+- CO_PAIS_ISOA3: código do país (CHN)
+- NO_PPE_PPI: nome do produto exportado (PPE) ou importado (PPI)
+- NO_FAT_AGREG: nome do fator agregado (Básicos, manufaturados, semimanufaturados e operações especiais)
+- VL_FOB: valor FOB exportado ou importado
+- KG_LIQUIDO: peso total exportado ou importado
+
+
+```{r}
+d3plus(data = dados, type = "tree_map", id = c("TIPO", "NO_FAT_AGREG", "NO_PPE_PPI"),
+       width = "100%") %>% 
+  d3plusSize("VL_FOB") %>% 
+  d3plusLabels(valign = "top")
+```
+
+## Escolhendo o nível
+
+O nível inicial de exibição é definido pela função `d3plusDepth()`. O índice do primeiro nível é zero
+
+```{r}
+d3plus(data = dados, type = "tree_map", id = c("TIPO", "NO_FAT_AGREG", "NO_PPE_PPI"),
+       width = "100%") %>% 
+  d3plusSize("VL_FOB") %>% 
+  d3plusLabels(valign = "top") %>% 
+  d3plusDepth(1) %>% 
+  d3plusColor("TIPO")
+```
+
