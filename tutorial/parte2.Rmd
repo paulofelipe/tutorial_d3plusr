@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Dados dos Exemplos
+## Pacotes e dados
 
 ```{r, message=FALSE, warning=FALSE}
 library(D3plusR)
@@ -30,10 +30,14 @@ dados <- read.csv2('dados/chn.csv', encoding = 'latin1')
 
 
 ```{r}
+dados <- dados %>%
+  filter(PERIODO == "Total")
+
 d3plus(data = dados, type = "tree_map", id = c("TIPO", "NO_FAT_AGREG", "NO_PPE_PPI"),
        width = "100%") %>% 
   d3plusSize("VL_FOB") %>% 
-  d3plusLabels(valign = "top")
+  d3plusLabels(valign = "top") %>% 
+  d3plusTime("CO_ANO", solo = 2016)
 ```
 
 ## Escolhendo o nível
@@ -44,8 +48,42 @@ O nível inicial de exibição é definido pela função `d3plusDepth()`. O índ
 d3plus(data = dados, type = "tree_map", id = c("TIPO", "NO_FAT_AGREG", "NO_PPE_PPI"),
        width = "100%") %>% 
   d3plusSize("VL_FOB") %>% 
-  d3plusLabels(valign = "top") %>% 
+  d3plusLabels(valign = "top") %>%  
+  d3plusTime("CO_ANO", solo = 2016) %>% 
   d3plusDepth(1) %>% 
   d3plusColor("TIPO")
+```
+
+## Botões de Interface do Usuário
+
+Cada elemento de interface do usuário deve ser informado em uma lista. Se for informado mais de um elemento de interface de usuário, deve ser criada uma lista de listas.
+
+```{r}
+d3plus(data = dados, type = "tree_map", id = c("TIPO", "NO_FAT_AGREG", "NO_PPE_PPI"),
+       width = "100%") %>% 
+  d3plusSize("VL_FOB") %>% 
+  d3plusLabels(valign = "top") %>%  
+  d3plusTime("CO_ANO", solo = 2016) %>% 
+  d3plusDepth(2) %>% 
+  d3plusColor("TIPO") %>% 
+  d3plusUi(list(method = "color", "value" = c("TIPO", "NO_FAT_AGREG", "NO_PPE_PPI"),
+                label = "Cor:"))
+```
+
+Para alterar os rótulos dos botões, cada valor informado em `value` deve ser substituído por uma lista com o rótulo desejado e o rótulo original.
+
+```{r}
+d3plus(data = dados, type = "tree_map", id = c("TIPO", "NO_FAT_AGREG", "NO_PPE_PPI"),
+       width = "100%") %>% 
+  d3plusSize("VL_FOB") %>% 
+  d3plusLabels(valign = "top") %>%  
+  d3plusTime("CO_ANO", solo = 2016) %>% 
+  d3plusDepth(2) %>% 
+  d3plusColor("TIPO") %>% 
+  d3plusUi(list(method = "color", value = list(list(Tipo = "TIPO"),
+                                               list(`Fator Agregado` = "NO_FAT_AGREG"),
+                                               list(`Produto` = "NO_PPE_PPI")),
+                label = "Cor:",
+                type = "drop"))
 ```
 

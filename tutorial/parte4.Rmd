@@ -1,0 +1,74 @@
+---
+title: "Tutorial - D3plusR - Parte 4"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(D3plusR)
+library(dplyr)
+library(htmlwidgets)
+
+dados <- read.csv2('dados/chn.csv', encoding = 'latin1')
+```
+
+**Descrição das variáveis**:
+
+- TIPO: tipo de operação (EXPORTAÇÕES OU IMPORTAÇÕES);
+- PERIODO: `Jan-Abr` ou `Total` para o ano completo;
+- CO_ANO: ano da operaçção
+- NO_PAIS: nome do país (China)
+- CO_PAIS_ISOA3: código do país (CHN)
+- NO_PPE_PPI: nome do produto exportado (PPE) ou importado (PPI)
+- NO_FAT_AGREG: nome do fator agregado (Básicos, manufaturados, semimanufaturados e operações especiais)
+- VL_FOB: valor FOB exportado ou importado
+- KG_LIQUIDO: peso total exportado ou importado
+
+## Adicionando coódigo JS com `onRender()`
+
+```{r}
+dados_exp <- dados %>% 
+  filter(TIPO == "EXPORTAÇÕES", PERIODO == "Total")
+
+d3plus(data = dados_exp, type = "tree_map", id = c("NO_FAT_AGREG", "NO_PPE_PPI"),
+       width = "100%", elementId = "chart1") %>% 
+  d3plusSize("VL_FOB") %>% 
+  d3plusLabels(valign = "top") %>% 
+  d3plusDepth(1) %>% 
+  d3plusTime("CO_ANO", solo = 2016) %>% 
+  onRender('function(el, x){
+           this.viz.title("Exportações para China por Produto")
+  }')
+```
+
+## Criando uma segunda visualização
+
+```{r}
+d3plus(data = dados_exp, type = "bar", id = "NO_PPE_PPI",
+       noformat_number_var = "CO_ANO",
+       width = "100%", elementId = "chart2") %>% 
+  d3plusId(solo = "Soja mesmo triturada") %>% 
+  d3plusY("CO_ANO", scale = "discrete") %>% 
+  d3plusX("VL_FOB", scale = "linear")
+```
+
+```{r}
+onStaticRenderComplete('
+                       var chart1 = HTMLWidgets.find("#chart1").viz;
+                       var chart2 = HTMLWidgets.find("#chart2").viz;
+
+                       chart1.mouse({"click": function(d){
+                          chart2.id({"solo": [d.NO_PPE_PPI]}).draw();
+                       }})')
+```
+
+
+#### Observações importantes sobre o `solo`
+
+1) Se for passado com os `[]` (`"solo": [d.NO_PPE_PPI]`), o novo valor sobrescreve o valor anterior;
+2) Sem os `[]`, os valores dos novos cliques são adicionados aos valores anteriores
+3) Se só houver um `id` marcado e não se esteja usando o `[]`, um clique no mesmo id elimina o `solo`. 

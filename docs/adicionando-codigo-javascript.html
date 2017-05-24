@@ -171,7 +171,9 @@ img {
 </ul></li>
 </ul></li>
 <li class="has-sub"><a href="adicionando-codigo-javascript.html#adicionando-codigo-javascript"><span class="toc-section-number">9</span> Adicionando código JavaScript</a><ul>
-<li><a href="adicionando-codigo-javascript.html#codigo-javascript-apos-a-renderizacao"><span class="toc-section-number">9.1</span> Código JavaScript após a renderização</a></li>
+<li class="has-sub"><a href="adicionando-codigo-javascript.html#codigo-javascript-apos-a-renderizacao"><span class="toc-section-number">9.1</span> Código JavaScript após a renderização</a><ul>
+<li><a href="adicionando-codigo-javascript.html#observacoes-importantes-sobre-o-solo"><span class="toc-section-number">9.1.1</span> Observações importantes sobre o <code>solo</code></a></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
@@ -252,7 +254,15 @@ HTMLWidgets.addPostRenderHandler(function() {
                        }})
 });
 </script>
+<div id="observacoes-importantes-sobre-o-solo" class="section level3">
+<h3><span class="header-section-number">9.1.1</span> Observações importantes sobre o <code>solo</code></h3>
+<ol style="list-style-type: decimal">
+<li>Se for passado com os <code>[]</code> (<code>&quot;solo&quot;: [d.TIPO]</code>), o novo valor sobrescreve o valor anterior;</li>
+<li>Sem os <code>[]</code>, os valores dos novos cliques são adicionados aos valores anteriores</li>
+<li>Se só houver um <code>id</code> marcado e não se esteja usando o <code>[]</code>, um clique no mesmo id elimina o <code>solo</code>.</li>
+</ol>
 
+</div>
 </div>
 </div>
 <p style="text-align: center;">

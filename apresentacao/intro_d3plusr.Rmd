@@ -60,6 +60,11 @@ knitr::opts_chunk$set(echo = TRUE)
 devtools::install_github('paulofelipe/D3plusR')
 ```
 
+- Demonstração:
+```{r, eval=FALSE}
+vignette("D3plusR")
+```
+
 # Conhecendo o D3plus {data-background=#000000}
 
 ## Por que é importante conhecer o D3plus?
@@ -184,6 +189,14 @@ d3plusAxes(ticks = FALSE,
 - Utilizar a função `d3plusDepth()` para escolher o nível inicial da visualização
 
 - O primeiro nível é definido como 0
+
+## Elemento de interface do usuário
+
+- É possível criar botões e dropdowns com opções que alteram as visualizações
+
+- Deve ser informada uma lista com `method`, `value`, `label` e `type` (apenas os dois primeiros são obrigatórios)
+
+- Os métodos são: size (.size()), color (.color()), title (.title()) etc.
 
 ## Mapas
 

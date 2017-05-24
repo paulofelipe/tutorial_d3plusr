@@ -15,10 +15,17 @@ library(jsonlite)
 
 mapa <- fromJSON('mapas/countries.topojson', simplifyVector = FALSE)
 
-data("bra_exp_2015")
+data("bra_exp_2015") 
+bra_exp_2015 <- bra_exp_2015 %>% 
+  select(Year, Reporter, Reporter.ISO, Partner, Partner.ISO, Trade.Value..US..)
 ```
 
-
+* Year: ano
+* Reporter: país informante (no caso, Brasil)
+* Reporter.ISO: código do país informante
+* Partner: parceiro comercial (destino das exportações)
+* Partner.ISO: código do parceiro comercial
+* Trade.Value..US..: valor exportado
 
 ## Carregando o mapa diretamente
 
@@ -33,7 +40,7 @@ d3plus(data = bra_exp_2015,
   d3plusColor(value = "Trade.Value..US..") %>% 
   d3plusTooltip(value = c("Trade.Value..US..", "Partner.ISO")) %>% 
   d3plusLabels(FALSE) %>% 
-  d3plusText("Partner")
+  d3plusText("Partner") 
 ```
 
 > O importante é informar o `id` nos dados que combina com o `id` do arquivo de mapa.

@@ -66,3 +66,9 @@ onStaticRenderComplete('
                        }})')
 ```
 
+### Observações importantes sobre o `solo`
+
+1) Se for passado com os `[]` (`"solo": [d.TIPO]`), o novo valor sobrescreve o valor anterior;
+2) Sem os `[]`, os valores dos novos cliques são adicionados aos valores anteriores
+3) Se só houver um `id` marcado e não se esteja usando o `[]`, um clique no mesmo id elimina o `solo`. 
+
