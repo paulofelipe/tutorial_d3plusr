@@ -57,7 +57,7 @@ d3plus(data = bra_exp_2015,
 
 ```{r}
 rem_rais_mg_2015 <- read.csv2('dados/rem_rais_mg_2015.csv',
-                              encoding = 'iso-8859-1')
+                              encoding = 'latin1')
 rem_rais_mg_2015$id <- as.character(rem_rais_mg_2015$id)
 
 
