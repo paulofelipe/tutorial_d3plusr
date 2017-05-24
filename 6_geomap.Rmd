@@ -56,7 +56,8 @@ d3plus(data = bra_exp_2015,
 > É importante que o arquivo `countries.topojson` esteja em um caminho relativo em relação ao endereço do html gerado pelo rmarkdown ou da pasta `www` de uma aplicação Shiny.
 
 ```{r}
-rem_rais_mg_2015 <- read.csv2('dados/rem_rais_mg_2015.csv')
+rem_rais_mg_2015 <- read.csv2('dados/rem_rais_mg_2015.csv',
+                              encoding = 'iso-8859-1')
 rem_rais_mg_2015$id <- as.character(rem_rais_mg_2015$id)
 
 

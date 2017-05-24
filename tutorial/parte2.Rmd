@@ -82,7 +82,7 @@ d3plus(data = dados, type = "tree_map", id = c("TIPO", "NO_FAT_AGREG", "NO_PPE_P
   d3plusColor("TIPO") %>% 
   d3plusUi(list(method = "color", value = list(list(Tipo = "TIPO"),
                                                list(`Fator Agregado` = "NO_FAT_AGREG"),
-                                               list(`Produto` = "NO_PPE_PPI")),
+                                               list(Produto = "NO_PPE_PPI")),
                 label = "Cor:",
                 type = "drop"))
 ```
