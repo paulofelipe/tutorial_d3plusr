@@ -149,6 +149,20 @@ d3plus(bra_chn_fat, type = "bar", id = c("TIPO", "NO_FAT_AGREG"),
   d3plusX(value = "CO_ANO", grid = FALSE, 
           persist = list(position = TRUE)) %>% 
   d3plusY(value = "VL_FOB", grid = TRUE, stacked = c(TRUE, FALSE)) %>% 
+  d3plusDepth(0)
+```
+
+```{r, include=FALSE}
+bra_chn_fat <- read.csv2('dados/chn_anual_fat.csv', encoding = "latin1")
+bra_chn_fat$CO_ANO <- as.character(bra_chn_fat$CO_ANO)
+head(bra_chn_fat)
+
+d3plus(bra_chn_fat, type = "bar", id = c("TIPO", "NO_FAT_AGREG"),
+       width = "100%",
+       height = 500) %>% 
+  d3plusX(value = "CO_ANO", grid = FALSE, 
+          persist = list(position = TRUE)) %>% 
+  d3plusY(value = "VL_FOB", grid = TRUE, stacked = c(TRUE, FALSE)) %>% 
   d3plusDepth(0) %>% 
   htmlwidgets::onRender('function(el, x){
     viz = this.viz

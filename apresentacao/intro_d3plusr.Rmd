@@ -135,7 +135,7 @@ d3plusAxes(ticks = FALSE,
                              stroke = list(width = 0)))
 ```
 
-- Opções de opções devem ser passsadas em listas
+- Opções de opções devem ser passadas em listas
 
 ## Exemplo de documentação
 
@@ -230,7 +230,7 @@ d3plusAxes(ticks = FALSE,
 
     - `onRender()`: adiciona código JS na construção do widget (é específico para visualização)
     
-    - `onStaticRenderComplete()`: permite adiconar código JS, mas que precisa ser executado após o carregamento dos widgets
+    - `onStaticRenderComplete()`: permite adicionar código JS, mas que precisa ser executado após o carregamento dos widgets
     
 ## Interação entre Widgets
 
@@ -239,4 +239,7 @@ d3plusAxes(ticks = FALSE,
 - Dificuldade: escrever código em JavaScript
     
 - Ver `Parte4.Rmd`
+
+## Obrigado
     
+paulo.alencar@mdic.gov.br
