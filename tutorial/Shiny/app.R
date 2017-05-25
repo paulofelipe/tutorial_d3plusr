@@ -11,6 +11,9 @@ library(shiny)
 library(D3plusR)
 library(dplyr)
 library(tidyr)
+library(httr)
+
+set_config(config(ssl_verifypeer = 0L))
 
 regions <- read.csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv",
                     stringsAsFactors = FALSE)
@@ -19,7 +22,7 @@ regions <- regions %>%
   rename(Partner.ISO = alpha.3)
 
 string <- "http://comtrade.un.org/data/cache/partnerAreas.json"
-reporters <- jsonlite::fromJSON(string)$results
+reporters <- jsonlite::fromJSON('partners.json')$results
 paises <- reporters$id
 names(paises) <- reporters$text
 
@@ -51,11 +54,11 @@ get.Comtrade <- function(url="https://comtrade.un.org/api/get?"
   )
 
   if(fmt == "csv") {
-    raw.data<- read.csv(string,header=TRUE)
+    raw.data<- content(GET(string), "parsed") %>% data.frame()
     return(list(validation=NULL, data=raw.data))
   } else {
     if(fmt == "json" ) {
-      raw.data<- rjson::fromJSON(file=string)
+      raw.data<- rjson::fromJSON(content(GET(string), "text"))
       data<- raw.data$dataset
       validation<- unlist(raw.data$validation, recursive=TRUE)
       ndata<- NULL
